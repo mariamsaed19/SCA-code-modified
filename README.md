@@ -8,8 +8,6 @@ Department of Energy/National Nuclear Security Administration.
 <h1> Improving Robustness to Model Inversion Attacks via Sparse Coding Architectures</h1>
 
 
-`#Improving Robustness to Model Inversion Attacks via Sparse Coding Architectures#`
-
 This repo contains experiments on CelebA, Medical MNIST, MNIST, Fashion MNIST, and CIFAR10 datasets using our proposed Sparse Coding Architecture (SCA) and other standard benchmarks.
 
 Each of the directories (ClebA, MedMNIST, MNIST, FMNIST, and CIFAR10) contains files to implement and test different SOTA defenses as well as our proposed SCA on Plug and Play Attack, End-to-end Networks, and Split Networks. The defense that achieves poor reconstruction performance (i.e., lower PSNR, lower SSIM, and higher FID), indicate it as better defense against the reconstruction attacks, i.e., model inversion attack. 
