@@ -1,4 +1,4 @@
-© 2023. Triad National Security, LLC. All rights reserved.
+© 2024. Triad National Security, LLC. All rights reserved.
 
 This program was produced under U.S. Government contract 89233218CNA000001 for Los Alamos
 National Laboratory (LANL), which is operated by Triad National Security, LLC for the U.S.
@@ -40,4 +40,4 @@ Once all installation is complete, one can run the following commands top activa
 ```
 
 # License
-Sparse-Guard is provided under a BSD license with a "modifications must be indicated" clause. See the LICENSE file for the full text. Sparse-Guard is covered under the LCA-PyTorch package, known internally as LA-CC-23-064.
+Sparse-Guard is provided under a BSD license with a "modifications must be indicated" clause. See the LICENSE file for the full text. SCA is covered under the LCA-PyTorch package, known internally as LA-CC-23-064.
