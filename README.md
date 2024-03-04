@@ -17,11 +17,12 @@ For example, mnist_gaussiannoise.py contains the code to train defense with targ
 A few notations used in many code files naming are: lca1> Sparse Standard benchmark; lca2> Our proposed multiplayer sparse coding architecture (SCA)
 
 Each of the directories also contain another sets of python code files starting with *etn* prefix to denote the similar attacks against that particular dataset using the end-to-end network, where the adversary can only access the output of last hidden layer before the classification layer. Files having *pnp* indicate Plug and Play attack. Also, we have a dedicated directory called Pnp_stylegan3 for the Plug and Play attack with StyGAN3. To start with StyleGAN, following commands can help to get required libraries and datasets.
-
-git clone https://github.com/NVlabs/stylegan3.git
-pip install ninja
-pip install torchmetrics
-unzip 'YOUR_PATH/DATASETxyz.zip'
+```
+####git clone https://github.com/NVlabs/stylegan3.git
+####pip install ninja
+####pip install torchmetrics
+####unzip 'YOUR_PATH/DATASETxyz.zip'
+```
 
 "other" directory contains code to plot the Umap representation of linear, convolution and sparse coding layers.
 
