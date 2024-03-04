@@ -5,6 +5,8 @@ National Laboratory (LANL), which is operated by Triad National Security, LLC fo
 Department of Energy/National Nuclear Security Administration.
 
 
+<h1> Improving Robustness to Model Inversion Attacks via Sparse Coding Architectures</h1>
+
 
 `#Improving Robustness to Model Inversion Attacks via Sparse Coding Architectures#`
 
