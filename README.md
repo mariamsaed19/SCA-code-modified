@@ -6,7 +6,7 @@ Department of Energy/National Nuclear Security Administration.
 
 
 
-###### Improving Robustness to Model Inversion Attacks via Sparse Coding Architectures #######
+***Improving Robustness to Model Inversion Attacks via Sparse Coding Architectures***
 
 This repo contains experiments on CelebA, Medical MNIST, MNIST, Fashion MNIST, and CIFAR10 datasets using our proposed Sparse Coding Architecture (SCA) and other standard benchmarks.
 
