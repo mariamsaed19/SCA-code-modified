@@ -40,4 +40,4 @@ Once all installation is complete, one can run the following commands top activa
 ```
 
 # License
-Sparse-Guard is provided under a BSD license with a "modifications must be indicated" clause. See the LICENSE file for the full text. SCA is covered under the LCA-PyTorch package, known internally as LA-CC-23-064.
+SCA is provided under a BSD license with a "modifications must be indicated" clause. See the LICENSE file for the full text. SCA is covered under the LCA-PyTorch package, known internally as LA-CC-23-064.
