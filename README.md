@@ -8,13 +8,13 @@ Department of Energy/National Nuclear Security Administration.
 <h1> Improving Robustness to Model Inversion Attacks via Sparse Coding Architectures</h1>
 
 
-This repo contains experiments on CelebA, Medical MNIST, MNIST, Fashion MNIST, and CIFAR10 datasets using our proposed Sparse Coding Architecture (SCA) and other standard benchmarks.
+This repo contains experiments on CelebA, Medical MNIST, MNIST, Fashion MNIST, and CIFAR10 datasets using our proposed Sparse Coding Architecture (SCA) and other standard baselines.
 
 Each of the directories (ClebA, MedMNIST, MNIST, FMNIST, and CIFAR10) contains files to implement and test different SOTA defenses as well as our proposed SCA on Plug and Play Attack, End-to-end Networks, and Split Networks. Note that the goal is for defenses to achieves *poor* reconstruction metrics (i.e., lower PSNR, lower SSIM, and higher FID), indicating that the model inversion attack failed to accurately reconstruct training data examples. 
 
 For example, mnist_gaussiannoise.py contains the code to train defense with target model using Gaussian Noise, then performs the attack to reconstruct all training instances on MNIST dataset and finally computes the PSNR, SSIM, and FID scores using the original training sample and reconstructed sample. 
 
-A few notations used in many code files naming are: lca1> Sparse Standard benchmark; lca2> Our proposed multiplayer sparse coding architecture (SCA)
+A few notations used in many code files naming are: lca1> Sparse Standard baseline; lca2> Our proposed multiplayer sparse coding architecture (SCA)
 
 Each of the directories also contain another sets of python code files starting with *etn* prefix to denote the similar attacks against that particular dataset using the end-to-end network, where the adversary can only access the output of last hidden layer before the classification layer. Files having *pnp* indicate Plug and Play attack. Also, we have a dedicated directory called Pnp_stylegan3 for the Plug and Play attack with StyGAN3. To start with StyleGAN, following commands can help to get required libraries and datasets.
 ```
