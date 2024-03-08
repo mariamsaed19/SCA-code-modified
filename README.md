@@ -10,7 +10,7 @@ Department of Energy/National Nuclear Security Administration.
 
 This repo contains experiments on CelebA, Medical MNIST, MNIST, Fashion MNIST, and CIFAR10 datasets using our proposed Sparse Coding Architecture (SCA) and other standard baselines.
 
-Each of the directories (ClebA, MedMNIST, MNIST, FMNIST, and CIFAR10) contains files to implement and test different SOTA defenses as well as our proposed SCA on Plug and Play Attack, End-to-end Networks, and Split Networks. Note that the goal is for defenses to achieve *poor* reconstruction metrics (i.e., lower PSNR, lower SSIM, and higher FID), indicating that the model inversion attack failed to accurately reconstruct training data examples. 
+Each of the directories (CelebA, MedMNIST, MNIST, FMNIST, and CIFAR10) contains files to implement and test different SOTA defenses as well as our proposed SCA on Plug and Play Attack, End-to-end Networks, and Split Networks. Note that the goal is for defenses to achieve *poor* reconstruction metrics (i.e., lower PSNR, lower SSIM, and higher FID), indicating that the model inversion attack failed to accurately reconstruct training data examples. 
 
 For example, mnist_gaussiannoise.py contains the code to train defense with target model using Gaussian Noise, then performs the attack to reconstruct all training instances on MNIST dataset and finally computes the PSNR, SSIM, and FID scores using the original training sample and reconstructed sample. 
 
@@ -28,7 +28,7 @@ Each of the directories also contain another sets of python code files starting 
 
 "model" directory contains different saved models that are trained with our codes
 
-***For lambda value experiment, vary the lambda value in corresponding code file.
+***For lambda value experiment, vary the lambda value in the corresponding code file.
 
 To run a code file first one has to install conda environment, pytorch, and other required packages.
 Once all installation is complete, one can run the following commands top activate the conda env and finally run the shell script (i.e., test.sh) provided to execute a python code file.
