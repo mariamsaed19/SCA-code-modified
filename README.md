@@ -10,14 +10,14 @@ Department of Energy/National Nuclear Security Administration.
 
 This repo contains experiments on CelebA, Medical MNIST, MNIST, Fashion MNIST, and CIFAR10 datasets using our proposed Sparse Coding Architecture (SCA) and other standard baselines. In particular, it contains files to implement and test different SOTA defenses as well as our proposed SCA on Plug and Play Attack, End-to-end Networks, and Split Networks. Note that the goal is for defenses to achieve *poor* reconstruction metrics (i.e., lower PSNR, lower SSIM, and higher FID), indicating that the model inversion attack failed to accurately reconstruct training data examples. 
 
-To summarize, our `Pnp_stylegan' directory contains all code files on five datasets for all SOTA benchmarks, as well as our SCA on Plug and Play attack setup. In addition, CelebA, MedMNIST, MNIST, FMNIST, and CIFAR10 directories contain code files for the End-to-end and Split attack setups for the following eight benchmarks on the  CelebA, Medical MNIST, MNIST, Fashion MNIST, and CIFAR10 datasets, respectively. These benchmarks are no defense, laplacian noise, gaussian noise, Gan, Gan++ with and without continual learning, sparse standard, and our SCA. The code files for the remaining three benchmarks (Wang, Peng, and Hayes) for both End to end and Split attack setups reside in the three directories (Mi-Reg, Bido_Def, and Opacus-Dp-SGD), respectively.
+To summarize, our `Pnp_stylegan3' directory contains all code files on five datasets for all SOTA benchmarks, as well as our SCA on Plug and Play attack setup. In addition, CelebA, MedMNIST, MNIST, FMNIST, and CIFAR10 directories contain code files for the End-to-end and Split attack setups for the following eight benchmarks on the  CelebA, Medical MNIST, MNIST, Fashion MNIST, and CIFAR10 datasets, respectively. These benchmarks are no defense, laplacian noise, gaussian noise, Gan, Gan++ with and without continual learning, sparse standard, and our SCA. The code files for the remaining three benchmarks (Wang, Peng, and Hayes) for both End to end and Split attack setups reside in the three directories (Mi-Reg, Bido_Def, and Opacus-Dp-SGD), respectively.
 
 A few notations used in many code file names are: nod> No Def; gan > Gan Def; bgan> Gong et al. GAN with continual learning; wogan> Gong et al. without continual learning; gn> Gaussian Noise; ln> Titcombe et al. laplacian noise; dp> Hayes et al. defense; bido> Peng et al. defense; mi-reg> Wang et al. defense; lca1> Sparse Standard baseline ; lca2> Our proposed multiplayer sparse coding architecture (SCA)
 
 
 Each code file is named as follows: ``Dataset Name_Ataack Setup Name_Defense Benchmark Name." For example, code files with `cifar10_etn_gn' denote code files for the Gaussian noise-based defense on the CIFAR10 dataset in end-to-end attack setup.
 
-To start with the Plug and Play attack in the `Pnp_stylegan,' the following commands can help to get the required libraries and datasets.
+To start with the Plug and Play attack in the `Pnp_stylegan3,' the following commands can help to get the required libraries and datasets.
 
 
 ```
