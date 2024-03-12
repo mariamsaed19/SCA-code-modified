@@ -8,15 +8,18 @@ Department of Energy/National Nuclear Security Administration.
 <h1> Improving Robustness to Model Inversion Attacks via Sparse Coding Architectures</h1>
 
 
-This repo contains experiments on CelebA, Medical MNIST, MNIST, Fashion MNIST, and CIFAR10 datasets using our proposed Sparse Coding Architecture (SCA) and other standard baselines.
+This repo contains experiments on CelebA, Medical MNIST, MNIST, Fashion MNIST, and CIFAR10 datasets using our proposed Sparse Coding Architecture (SCA) and other standard baselines. In particular, it contains files to implement and test different SOTA defenses as well as our proposed SCA on Plug and Play Attack, End-to-end Networks, and Split Networks. Note that the goal is for defenses to achieve *poor* reconstruction metrics (i.e., lower PSNR, lower SSIM, and higher FID), indicating that the model inversion attack failed to accurately reconstruct training data examples. 
 
-Each of the directories (CelebA, MedMNIST, MNIST, FMNIST, and CIFAR10) contains files to implement and test different SOTA defenses as well as our proposed SCA on Plug and Play Attack, End-to-end Networks, and Split Networks. Note that the goal is for defenses to achieve *poor* reconstruction metrics (i.e., lower PSNR, lower SSIM, and higher FID), indicating that the model inversion attack failed to accurately reconstruct training data examples. 
+To summarize, our `Pnp_stylegan' directory contains all code files on five datasets for all SOTA benchmarks, as well as our SCA on Plug and Play attack setup. In addition, CelebA, MedMNIST, MNIST, FMNIST, and CIFAR10 repos contain code files for the End-to-end and Split attack setups for the following eight benchmarks on the  CelebA, Medical MNIST, MNIST, Fashion MNIST, and CIFAR10 datasets, respectively. These benchmarks are no defense, laplacian noise, gaussian noise, Gan, Gan++ with and without continual learning, sparse standard, and our SCA. The code files for the remaining three benchmarks (Wang, Peng, and Hayes) reside in the three directories (Mi-Reg, Bido_Def, and Opacus-Dp-SGD), respectively, for both End to end and Split attack setups.
 
-For example, mnist_gaussiannoise.py contains the code to train defense with target model using Gaussian Noise, then performs the attack to reconstruct all training instances on MNIST dataset and finally computes the PSNR, SSIM, and FID scores using the original training sample and reconstructed sample. 
+A few notations used in many code file names are: nod> No Def; gan > Gan Def; bgan> Gong et al. GAN with continual learning; wogan> Gong et al. without continual learning; gn> Gaussian Noise; ln> Titcombe et al. laplacian noise; dp> Hayes et al. defense; bido> Peng et al. defense; mi-reg> Wang et al. defense; lca1> Sparse Standard baseline ; lca2> Our proposed multiplayer sparse coding architecture (SCA)
 
-A few notations used in many code files naming are: lca1> Sparse Standard baseline; lca2> Our proposed multiplayer sparse coding architecture (SCA)
 
-Each of the directories also contain another sets of python code files starting with *etn* prefix to denote the similar attacks against that particular dataset using the end-to-end network, where the adversary can only access the output of last hidden layer before the classification layer. Files having *pnp* indicate Plug and Play attack. Also, we have a dedicated directory called Pnp_stylegan3 for the Plug and Play attack with StyGAN3. To start with StyleGAN, following commands can help to get required libraries and datasets.
+Each code file is named as follows: ``Dataset Name_Ataack Setup Name_Defense Benchmark Name." For example, code files with `cifar10_etn_gn' denote code files for the Gaussian noise-based defense on the CIFAR10 dataset in end-to-end attack setup.
+
+To start with the Plug and Play attack in the `Pnp_stylegan,' the following commands can help to get the required libraries and datasets.
+
+
 ```
 ####git clone https://github.com/NVlabs/stylegan3.git
 ####pip install ninja
@@ -26,12 +29,10 @@ Each of the directories also contain another sets of python code files starting 
 
 "other" directory contains code to plot the Umap representation of linear, convolution and sparse coding layers.
 
-"model" directory contains different saved models that are trained with our codes
-
 ***For lambda value experiment, vary the lambda value in the corresponding code file.
 
 To run a code file first one has to install conda environment, pytorch, and other required packages.
-Once all installation is complete, one can run the following commands top activate the conda env and finally run the shell script (i.e., test.sh) provided to execute a python code file.
+Once all installation is complete, one can run the following commands to activate the conda env and finally run the shell script (i.e., test.sh) provided to execute a Python code file.
 
 ```
 ####module load miniconda3
