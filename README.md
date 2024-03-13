@@ -15,7 +15,7 @@ To summarize, our `Pnp_stylegan3' directory contains all code files on five data
 A few notations used in many code file names are: nod> No Def; gan > Gan Def; bgan> Gong et al. GAN with continual learning; wogan> Gong et al. without continual learning; gn> Gaussian Noise; ln> Titcombe et al. laplacian noise; dp> Hayes et al. defense; bido> Peng et al. defense; mi-reg> Wang et al. defense; lca1> Sparse Standard baseline ; lca2> Our proposed multiplayer sparse coding architecture (SCA)
 
 
-Each code file is named as follows: ``Dataset Name_Ataack Setup Name_Defense Benchmark Name." For example, code files with `cifar10_etn_gn' denote code files for the Gaussian noise-based defense on the CIFAR10 dataset in end-to-end attack setup. We have 5 dataset names (CIFAR10, MNIST, MedMNIST, FMNIST, and CelebA), 3 Attack Setup Names ( pnp> plug and play, etn> end to end, and split> split) with 11 benchmark names listed above. 
+Each code file is named as follows: ``Dataset Name_Attack Setup Name_Defense Benchmark Name." For example, code files with `cifar10_etn_gn' denote code files for the Gaussian noise-based defense on the CIFAR10 dataset in end-to-end attack setup. We have 5 dataset names (CIFAR10, MNIST, MedMNIST, FMNIST, and CelebA), 3 Attack Setup Names ( pnp> plug and play, etn> end to end, and split> split) with 11 benchmark names listed above. 
 
 To start with the Plug and Play attack in the `Pnp_stylegan3,' the following commands can help to get the required libraries and datasets.
 
