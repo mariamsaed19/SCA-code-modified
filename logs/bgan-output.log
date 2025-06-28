@@ -1,0 +1,1172 @@
+GAN Training is Done!
+GAN Training is Done!
+GAN Training is Done!
+GAN Training is Done!
+GAN Training is Done!
+GAN Training is Done!
+GAN Training is Done!
+GAN Training is Done!
+GAN Training is Done!
+GAN Training is Done!
+GAN Training is Done!
+GAN Training is Done!
+GAN Training is Done!
+GAN Training is Done!
+GAN Training is Done!
+GAN Training is Done!
+GAN Training is Done!
+GAN Training is Done!
+GAN Training is Done!
+GAN Training is Done!
+GAN Training is Done!
+GAN Training is Done!
+GAN Training is Done!
+GAN Training is Done!
+GAN Training is Done!
++++++++++CLF Training Starting+++++++++
+
+Classifier Training Performance:
+acc: 5.4%, avg loss: 4.362729
+
+
+Classifier Training Performance:
+acc: 5.4%, avg loss: 4.375326
+
+
+Classifier Training Performance:
+acc: 5.4%, avg loss: 4.362924
+
+
+Classifier Training Performance:
+acc: 5.4%, avg loss: 4.341713
+
+
+Classifier Training Performance:
+acc: 5.4%, avg loss: 4.383658
+
+
+Classifier Training Performance:
+acc: 5.4%, avg loss: 4.363973
+
+
+Classifier Training Performance:
+acc: 5.4%, avg loss: 4.369904
+
+
+Classifier Training Performance:
+acc: 5.4%, avg loss: 4.367693
+
+
+Classifier Training Performance:
+acc: 5.4%, avg loss: 4.391744
+
+
+Classifier Training Performance:
+acc: 5.4%, avg loss: 4.407701
+
+
+Classifier Training Performance:
+acc: 5.4%, avg loss: 4.334758
+
+
+Classifier Training Performance:
+acc: 5.4%, avg loss: 4.395736
+
+
+Classifier Training Performance:
+acc: 5.4%, avg loss: 4.379810
+
+
+Classifier Training Performance:
+acc: 5.4%, avg loss: 4.385809
+
+
+Classifier Training Performance:
+acc: 5.4%, avg loss: 4.416656
+
+
+Classifier Training Performance:
+acc: 5.4%, avg loss: 4.372407
+
+
+Classifier Training Performance:
+acc: 5.4%, avg loss: 4.365482
+
+
+Classifier Training Performance:
+acc: 5.5%, avg loss: 4.401241
+
+
+Classifier Training Performance:
+acc: 5.4%, avg loss: 4.381697
+
+
+Classifier Training Performance:
+acc: 5.5%, avg loss: 4.376583
+
+
+Classifier Training Performance:
+acc: 5.4%, avg loss: 4.399004
+
+
+Classifier Training Performance:
+acc: 5.4%, avg loss: 4.398521
+
+
+Classifier Training Performance:
+acc: 5.4%, avg loss: 4.371696
+
+
+Classifier Training Performance:
+acc: 5.4%, avg loss: 4.368566
+
+
+Classifier Training Performance:
+acc: 5.4%, avg loss: 4.403261
+
++++++++++Target Training Starting+++++++++
+
+Target Victim Training Performance:
+acc: 41.6%, avg loss: 6.149289
+
+
+Target Victim Training Performance:
+acc: 48.9%, avg loss: 5.763644
+
+
+Target Victim Training Performance:
+acc: 49.4%, avg loss: 4.975348
+
+
+Target Victim Training Performance:
+acc: 49.5%, avg loss: 4.699682
+
+
+Target Victim Training Performance:
+acc: 49.7%, avg loss: 4.844682
+
+
+Target Victim Training Performance:
+acc: 49.7%, avg loss: 4.870463
+
+
+Target Victim Training Performance:
+acc: 49.8%, avg loss: 4.787435
+
+
+Target Victim Training Performance:
+acc: 49.9%, avg loss: 4.883817
+
+
+Target Victim Training Performance:
+acc: 49.9%, avg loss: 5.013481
+
+
+Target Victim Training Performance:
+acc: 49.9%, avg loss: 5.208916
+
+
+Target Victim Training Performance:
+acc: 50.0%, avg loss: 4.985631
+
+
+Target Victim Training Performance:
+acc: 50.1%, avg loss: 5.244511
+
+
+Target Victim Training Performance:
+acc: 50.1%, avg loss: 5.004539
+
+
+Target Victim Training Performance:
+acc: 50.1%, avg loss: 5.423641
+
+
+Target Victim Training Performance:
+acc: 50.1%, avg loss: 5.198400
+
+
+Target Victim Training Performance:
+acc: 50.1%, avg loss: 5.506074
+
+
+Target Victim Training Performance:
+acc: 50.1%, avg loss: 5.591088
+
+
+Target Victim Training Performance:
+acc: 50.1%, avg loss: 5.706171
+
+
+Target Victim Training Performance:
+acc: 50.2%, avg loss: 5.487001
+
+
+Target Victim Training Performance:
+acc: 50.2%, avg loss: 5.745276
+
+
+Target Victim Training Performance:
+acc: 50.2%, avg loss: 5.859902
+
+
+Target Victim Training Performance:
+acc: 50.2%, avg loss: 6.067580
+
+
+Target Victim Training Performance:
+acc: 50.2%, avg loss: 6.414160
+
+
+Target Victim Training Performance:
+acc: 50.2%, avg loss: 6.450245
+
+
+Target Victim Training Performance:
+acc: 50.2%, avg loss: 6.755814
+
++++++++++Target Test+++++++++
+Target Model Accuracy = 9900 / 10000 = 0.99
++++++++++Training Starting+++++++++
+**********Test Starting************
+FID is: 52.525
+FID is: 65.736
+FID is: 64.977
+FID is: 37.467
+FID is: 41.487
+FID is: 47.559
+FID is: 38.155
+FID is: 42.175
+FID is: 43.814
+FID is: 78.363
+FID is: 42.332
+FID is: 80.207
+FID is: 44.632
+FID is: 41.388
+FID is: 40.347
+FID is: 34.204
+FID is: 37.742
+FID is: 47.470
+FID is: 33.867
+FID is: 43.678
+FID is: 47.539
+FID is: 36.110
+FID is: 41.830
+FID is: 44.711
+FID is: 31.497
+FID is: 50.177
+FID is: 39.926
+FID is: 31.779
+FID is: 65.730
+FID is: 73.705
+FID is: 39.488
+FID is: 49.370
+FID is: 55.903
+FID is: 41.642
+FID is: 45.569
+FID is: 45.991
+FID is: 37.794
+FID is: 61.008
+FID is: 38.226
+FID is: 41.223
+FID is: 73.735
+FID is: 33.769
+FID is: 52.451
+FID is: 46.745
+FID is: 62.328
+FID is: 49.060
+FID is: 37.992
+FID is: 47.633
+FID is: 61.691
+FID is: 39.770
+FID is: 43.484
+FID is: 41.771
+FID is: 40.119
+FID is: 44.303
+FID is: 48.000
+FID is: 55.489
+FID is: 49.549
+FID is: 38.987
+FID is: 44.040
+FID is: 35.024
+FID is: 39.950
+FID is: 41.148
+FID is: 46.303
+FID is: 46.704
+FID is: 52.850
+FID is: 57.636
+FID is: 79.821
+FID is: 38.062
+FID is: 49.820
+FID is: 30.549
+FID is: 39.288
+FID is: 44.840
+FID is: 48.060
+FID is: 48.087
+FID is: 62.125
+FID is: 35.554
+FID is: 47.729
+FID is: 38.405
+FID is: 42.540
+FID is: 43.136
+FID is: 44.590
+FID is: 44.159
+FID is: 65.211
+FID is: 42.791
+FID is: 41.449
+FID is: 52.350
+FID is: 49.091
+FID is: 47.105
+FID is: 48.575
+FID is: 39.671
+FID is: 48.527
+FID is: 52.230
+FID is: 63.219
+FID is: 42.180
+FID is: 56.660
+FID is: 48.984
+FID is: 88.033
+FID is: 43.163
+FID is: 38.308
+FID is: 42.218
+FID is: 49.690
+FID is: 47.852
+FID is: 40.634
+FID is: 38.152
+FID is: 50.982
+FID is: 40.489
+FID is: 38.332
+FID is: 43.337
+FID is: 45.873
+FID is: 39.314
+FID is: 40.719
+FID is: 48.941
+FID is: 41.641
+FID is: 42.687
+FID is: 62.695
+FID is: 55.894
+FID is: 38.338
+FID is: 43.464
+FID is: 51.029
+FID is: 58.578
+FID is: 58.749
+FID is: 73.779
+FID is: 85.270
+FID is: 38.458
+FID is: 49.001
+FID is: 49.809
+FID is: 65.069
+FID is: 51.643
+FID is: 66.778
+FID is: 57.618
+FID is: 49.202
+FID is: 43.017
+FID is: 37.634
+FID is: 72.998
+FID is: 45.969
+FID is: 47.824
+FID is: 46.028
+FID is: 61.136
+FID is: 45.995
+FID is: 54.862
+FID is: 36.695
+FID is: 40.392
+FID is: 37.641
+FID is: 43.967
+FID is: 52.365
+FID is: 36.091
+FID is: 31.436
+FID is: 42.617
+FID is: 48.661
+FID is: 61.139
+FID is: 52.602
+FID is: 43.180
+FID is: 31.950
+FID is: 49.252
+FID is: 67.362
+FID is: 43.766
+FID is: 48.176
+FID is: 41.281
+FID is: 56.536
+FID is: 62.801
+FID is: 39.990
+FID is: 40.332
+FID is: 43.752
+FID is: 42.633
+FID is: 45.499
+FID is: 37.254
+FID is: 36.634
+FID is: 35.235
+FID is: 38.855
+FID is: 37.448
+FID is: 44.904
+FID is: 40.146
+FID is: 55.425
+FID is: 43.394
+FID is: 46.106
+FID is: 47.378
+FID is: 40.593
+FID is: 43.664
+FID is: 36.400
+FID is: 74.276
+FID is: 49.144
+FID is: 56.310
+FID is: 38.197
+FID is: 33.414
+FID is: 57.701
+FID is: 39.852
+FID is: 48.106
+FID is: 56.698
+FID is: 36.490
+FID is: 47.853
+FID is: 49.616
+FID is: 45.681
+FID is: 35.629
+FID is: 69.954
+FID is: 37.963
+FID is: 43.635
+FID is: 39.742
+FID is: 48.058
+FID is: 36.552
+FID is: 40.220
+FID is: 57.975
+FID is: 36.401
+FID is: 45.643
+FID is: 44.813
+FID is: 48.535
+FID is: 49.708
+FID is: 58.916
+FID is: 38.159
+FID is: 41.311
+FID is: 65.790
+FID is: 36.159
+FID is: 56.234
+FID is: 38.445
+FID is: 79.053
+FID is: 52.688
+FID is: 51.367
+FID is: 62.959
+FID is: 69.671
+FID is: 51.184
+FID is: 85.486
+FID is: 43.587
+FID is: 37.619
+FID is: 43.927
+FID is: 53.818
+FID is: 38.258
+FID is: 36.825
+FID is: 42.506
+FID is: 43.176
+FID is: 37.930
+FID is: 48.634
+FID is: 36.604
+FID is: 44.799
+FID is: 37.907
+FID is: 58.161
+FID is: 33.240
+FID is: 63.209
+FID is: 40.769
+FID is: 37.382
+FID is: 31.334
+FID is: 66.414
+FID is: 32.689
+FID is: 52.406
+FID is: 40.719
+FID is: 38.718
+FID is: 38.432
+FID is: 62.486
+FID is: 37.929
+FID is: 51.409
+FID is: 75.412
+FID is: 39.444
+FID is: 48.259
+FID is: 50.436
+FID is: 37.272
+FID is: 47.166
+FID is: 51.341
+FID is: 37.926
+FID is: 33.507
+FID is: 58.133
+FID is: 40.009
+FID is: 60.859
+FID is: 45.785
+FID is: 47.481
+FID is: 55.406
+FID is: 41.163
+FID is: 75.751
+FID is: 50.945
+FID is: 63.622
+FID is: 41.098
+FID is: 48.291
+FID is: 56.109
+FID is: 39.278
+FID is: 54.814
+FID is: 32.065
+FID is: 58.255
+FID is: 67.888
+FID is: 34.119
+FID is: 56.547
+FID is: 47.299
+FID is: 42.917
+FID is: 60.103
+FID is: 50.348
+FID is: 48.744
+FID is: 42.047
+FID is: 47.884
+FID is: 50.535
+FID is: 35.846
+FID is: 36.003
+FID is: 47.344
+FID is: 41.455
+FID is: 76.122
+FID is: 57.965
+FID is: 33.871
+FID is: 36.472
+FID is: 70.098
+FID is: 43.955
+FID is: 70.849
+FID is: 42.717
+FID is: 66.796
+FID is: 66.072
+FID is: 36.077
+FID is: 48.554
+FID is: 64.267
+FID is: 39.206
+FID is: 39.584
+FID is: 45.817
+FID is: 41.181
+FID is: 57.598
+FID is: 33.137
+FID is: 47.736
+FID is: 63.346
+FID is: 65.036
+FID is: 33.529
+FID is: 45.671
+FID is: 57.267
+FID is: 35.748
+FID is: 47.995
+FID is: 41.612
+FID is: 33.099
+FID is: 59.596
+FID is: 38.658
+FID is: 33.586
+FID is: 41.667
+FID is: 54.929
+FID is: 51.256
+FID is: 40.926
+FID is: 43.193
+FID is: 38.844
+FID is: 42.339
+FID is: 88.921
+FID is: 63.899
+FID is: 34.842
+FID is: 42.734
+FID is: 42.009
+FID is: 35.196
+FID is: 61.095
+FID is: 59.332
+FID is: 58.060
+FID is: 39.451
+FID is: 43.505
+FID is: 36.787
+FID is: 41.400
+FID is: 44.814
+FID is: 39.184
+FID is: 47.605
+FID is: 45.919
+FID is: 68.683
+FID is: 41.495
+FID is: 61.531
+FID is: 58.229
+FID is: 80.599
+FID is: 47.768
+FID is: 39.926
+FID is: 37.345
+FID is: 55.126
+FID is: 50.871
+FID is: 59.798
+FID is: 40.534
+FID is: 38.076
+FID is: 41.102
+FID is: 46.864
+FID is: 78.474
+FID is: 37.346
+FID is: 48.058
+FID is: 75.546
+FID is: 39.356
+FID is: 81.815
+FID is: 43.801
+FID is: 63.919
+FID is: 56.952
+FID is: 51.038
+FID is: 38.568
+FID is: 54.173
+FID is: 47.899
+FID is: 39.456
+FID is: 45.718
+FID is: 47.447
+FID is: 55.234
+FID is: 52.614
+FID is: 48.512
+FID is: 40.789
+FID is: 58.097
+FID is: 50.298
+FID is: 48.027
+FID is: 47.973
+FID is: 48.102
+FID is: 78.187
+FID is: 38.714
+FID is: 44.879
+FID is: 65.953
+FID is: 43.838
+FID is: 49.351
+FID is: 35.480
+FID is: 43.044
+FID is: 47.375
+FID is: 42.028
+FID is: 48.975
+FID is: 45.990
+FID is: 46.070
+FID is: 42.539
+FID is: 54.919
+FID is: 29.627
+FID is: 34.450
+FID is: 37.719
+FID is: 48.656
+FID is: 51.415
+FID is: 37.716
+FID is: 39.145
+FID is: 41.634
+FID is: 46.118
+FID is: 49.475
+FID is: 41.507
+FID is: 43.909
+FID is: 38.624
+FID is: 49.006
+FID is: 46.156
+FID is: 38.948
+FID is: 38.943
+FID is: 32.044
+FID is: 58.819
+FID is: 42.090
+FID is: 42.637
+FID is: 38.487
+FID is: 36.324
+FID is: 35.406
+FID is: 74.227
+FID is: 46.517
+FID is: 41.693
+FID is: 56.219
+FID is: 48.214
+FID is: 48.622
+FID is: 36.221
+FID is: 63.680
+FID is: 47.546
+FID is: 40.770
+FID is: 47.168
+FID is: 45.339
+FID is: 52.553
+FID is: 46.107
+FID is: 90.573
+FID is: 47.059
+FID is: 37.815
+FID is: 49.792
+FID is: 36.793
+FID is: 50.147
+FID is: 38.153
+FID is: 81.583
+FID is: 69.078
+FID is: 30.449
+FID is: 40.155
+FID is: 66.942
+FID is: 46.851
+FID is: 33.944
+FID is: 44.181
+FID is: 68.340
+FID is: 39.670
+FID is: 41.100
+FID is: 51.188
+FID is: 48.734
+FID is: 41.932
+FID is: 53.917
+FID is: 44.956
+FID is: 40.362
+FID is: 40.990
+FID is: 59.459
+FID is: 48.048
+FID is: 59.709
+FID is: 40.756
+FID is: 56.743
+FID is: 35.106
+FID is: 30.007
+FID is: 29.180
+FID is: 53.940
+FID is: 48.467
+FID is: 67.601
+FID is: 70.902
+FID is: 48.834
+FID is: 43.103
+FID is: 64.043
+FID is: 73.912
+FID is: 61.019
+FID is: 38.201
+FID is: 51.665
+FID is: 42.432
+FID is: 40.431
+FID is: 82.356
+FID is: 55.457
+FID is: 33.327
+FID is: 43.678
+FID is: 43.506
+FID is: 45.268
+FID is: 58.959
+FID is: 46.880
+FID is: 36.727
+FID is: 40.248
+FID is: 56.682
+FID is: 65.564
+FID is: 56.489
+FID is: 36.114
+FID is: 43.758
+FID is: 55.150
+FID is: 41.500
+FID is: 52.014
+FID is: 31.897
+FID is: 38.313
+FID is: 44.377
+FID is: 53.061
+FID is: 49.851
+FID is: 43.754
+FID is: 33.069
+FID is: 45.047
+FID is: 38.453
+FID is: 40.588
+FID is: 88.434
+FID is: 36.371
+FID is: 47.225
+FID is: 72.852
+FID is: 52.001
+FID is: 37.931
+FID is: 56.679
+FID is: 33.869
+FID is: 36.749
+FID is: 42.338
+FID is: 39.151
+FID is: 64.389
+FID is: 57.723
+FID is: 52.624
+FID is: 36.834
+FID is: 52.970
+FID is: 37.477
+FID is: 50.477
+FID is: 35.838
+FID is: 65.846
+FID is: 38.750
+FID is: 38.768
+FID is: 38.039
+FID is: 55.740
+FID is: 41.302
+FID is: 47.014
+FID is: 70.667
+FID is: 42.768
+FID is: 64.804
+FID is: 34.722
+FID is: 41.542
+FID is: 43.031
+FID is: 36.294
+FID is: 39.519
+FID is: 48.288
+FID is: 33.731
+FID is: 66.582
+FID is: 67.824
+FID is: 66.047
+FID is: 50.228
+FID is: 31.632
+FID is: 44.138
+FID is: 56.225
+FID is: 53.870
+FID is: 49.857
+FID is: 43.174
+FID is: 61.339
+FID is: 36.602
+FID is: 33.973
+FID is: 72.582
+FID is: 27.512
+FID is: 49.729
+FID is: 35.553
+FID is: 36.180
+FID is: 48.333
+FID is: 69.670
+FID is: 50.384
+FID is: 37.048
+FID is: 36.510
+FID is: 52.620
+FID is: 65.917
+FID is: 41.641
+FID is: 34.952
+FID is: 28.843
+FID is: 40.742
+FID is: 48.866
+FID is: 39.985
+FID is: 57.318
+FID is: 39.337
+FID is: 73.797
+FID is: 68.011
+FID is: 43.951
+FID is: 40.231
+FID is: 33.636
+FID is: 42.830
+FID is: 44.993
+FID is: 43.411
+FID is: 49.576
+FID is: 33.777
+FID is: 34.866
+FID is: 40.321
+FID is: 60.634
+FID is: 50.312
+FID is: 45.797
+FID is: 68.780
+FID is: 38.494
+FID is: 45.351
+FID is: 37.858
+FID is: 65.198
+FID is: 46.361
+FID is: 64.420
+FID is: 56.374
+FID is: 41.228
+FID is: 49.264
+FID is: 41.571
+FID is: 44.553
+FID is: 39.393
+FID is: 53.250
+FID is: 41.970
+FID is: 42.248
+FID is: 36.832
+FID is: 37.482
+FID is: 58.579
+FID is: 39.535
+FID is: 43.825
+FID is: 39.782
+FID is: 46.674
+FID is: 45.044
+FID is: 42.959
+FID is: 49.316
+FID is: 41.273
+FID is: 45.990
+FID is: 44.493
+FID is: 38.506
+FID is: 51.160
+FID is: 41.136
+FID is: 48.087
+FID is: 40.516
+FID is: 43.039
+FID is: 38.804
+FID is: 31.501
+FID is: 53.567
+FID is: 46.559
+FID is: 60.878
+FID is: 35.024
+FID is: 51.396
+FID is: 50.278
+FID is: 58.419
+FID is: 41.219
+FID is: 51.169
+FID is: 45.665
+FID is: 53.818
+FID is: 51.959
+FID is: 42.077
+FID is: 46.032
+FID is: 49.881
+FID is: 48.352
+FID is: 28.741
+FID is: 40.048
+FID is: 49.910
+FID is: 37.945
+FID is: 54.400
+FID is: 37.353
+FID is: 44.685
+FID is: 36.657
+FID is: 46.907
+FID is: 32.963
+FID is: 50.171
+FID is: 56.150
+FID is: 67.146
+FID is: 41.386
+FID is: 56.640
+FID is: 52.819
+FID is: 62.388
+FID is: 50.964
+FID is: 38.216
+FID is: 41.357
+FID is: 70.400
+FID is: 48.003
+FID is: 40.142
+FID is: 47.357
+FID is: 42.650
+FID is: 31.329
+FID is: 47.907
+FID is: 64.321
+FID is: 37.060
+FID is: 42.490
+FID is: 65.811
+FID is: 32.036
+FID is: 44.554
+FID is: 34.201
+FID is: 41.011
+FID is: 54.898
+FID is: 50.977
+FID is: 60.923
+FID is: 36.801
+FID is: 36.935
+FID is: 44.747
+FID is: 38.294
+FID is: 52.203
+FID is: 55.862
+FID is: 34.878
+FID is: 68.516
+FID is: 29.648
+FID is: 58.038
+FID is: 51.996
+FID is: 34.739
+FID is: 43.271
+FID is: 57.878
+FID is: 46.537
+FID is: 65.478
+FID is: 68.107
+FID is: 57.867
+FID is: 42.931
+FID is: 56.401
+FID is: 111.850
+FID is: 67.094
+FID is: 35.190
+FID is: 33.733
+FID is: 43.807
+FID is: 62.871
+FID is: 67.924
+FID is: 33.362
+FID is: 47.818
+FID is: 48.821
+FID is: 52.922
+FID is: 57.592
+FID is: 37.022
+FID is: 40.839
+FID is: 44.566
+FID is: 53.841
+FID is: 53.057
+FID is: 36.085
+FID is: 36.274
+FID is: 58.624
+FID is: 42.198
+FID is: 36.962
+FID is: 40.189
+FID is: 46.589
+FID is: 40.455
+FID is: 50.225
+FID is: 53.452
+FID is: 53.905
+FID is: 55.719
+FID is: 35.512
+FID is: 45.919
+FID is: 36.229
+FID is: 41.501
+FID is: 43.113
+FID is: 59.283
+FID is: 34.404
+FID is: 45.438
+FID is: 40.524
+FID is: 40.867
+FID is: 69.931
+FID is: 54.752
+FID is: 35.679
+FID is: 44.145
+FID is: 38.549
+FID is: 57.161
+FID is: 36.970
+FID is: 35.931
+FID is: 37.311
+FID is: 37.707
+FID is: 44.630
+FID is: 39.987
+FID is: 35.302
+FID is: 33.992
+FID is: 38.018
+FID is: 46.923
+FID is: 49.623
+FID is: 46.651
+FID is: 43.895
+FID is: 65.892
+FID is: 41.753
+FID is: 62.283
+FID is: 32.864
+FID is: 42.000
+FID is: 33.016
+FID is: 29.257
+FID is: 74.562
+FID is: 41.767
+FID is: 53.286
+FID is: 49.475
+FID is: 49.594
+FID is: 47.377
+FID is: 55.457
+FID is: 38.556
+FID is: 47.862
+FID is: 53.781
+FID is: 39.610
+FID is: 42.684
+FID is: 42.886
+FID is: 92.065
+FID is: 50.140
+FID is: 54.516
+FID is: 56.848
+FID is: 54.265
+FID is: 43.751
+FID is: 44.986
+FID is: 36.823
+FID is: 41.834
+FID is: 37.497
+FID is: 55.424
+FID is: 97.873
+FID is: 38.989
+FID is: 37.819
+FID is: 52.087
+FID is: 52.138
+FID is: 41.605
+FID is: 47.316
+FID is: 41.128
+FID is: 39.987
+FID is: 55.454
+FID is: 69.191
+FID is: 29.625
+FID is: 46.605
+FID is: 69.854
+FID is: 56.039
+FID is: 44.754
+FID is: 43.595
+FID is: 55.983
+FID is: 95.296
+FID is: 45.761
+FID is: 46.176
+FID is: 36.877
+FID is: 31.916
+FID is: 31.635
+FID is: 54.060
+FID is: 53.130
+FID is: 48.628
+FID is: 56.950
+FID is: 44.898
+FID is: 45.911
+FID is: 43.968
+FID is: 36.362
+FID is: 48.239
+FID is: 48.131
+FID is: 43.951
+FID is: 63.275
+FID is: 41.060
+FID is: 54.679
+FID is: 45.619
+FID is: 67.337
+FID is: 50.098
+FID is: 37.818
+FID is: 116.698
+FID is: 40.649
+FID is: 56.422
+FID is: 62.525
+FID is: 54.202
+FID is: 44.872
+FID is: 32.514
+FID is: 31.063
+FID is: 42.660
+FID is: 38.069
+FID is: 32.504
+FID is: 36.784
+FID is: 42.000
+FID is: 49.738
+FID is: 43.583
+FID is: 33.502
+FID is: 43.323
+FID is: 38.283
+FID is: 43.706
+FID is: 46.778
+FID is: 39.996
+FID is: 45.352
+FID is: 37.439
+FID is: 62.748
+FID is: 44.478
+FID is: 44.764
+FID is: 61.263
+FID is: 58.446
+FID is: 29.978
+FID is: 55.655
+FID is: 55.613
+FID is: 40.824
+FID is: 37.036
+FID is: 46.949
+FID is: 64.358
+FID is: 52.219
+FID is: 62.367
+FID is: 44.650
+FID is: 30.786
+FID is: 60.971
+FID is: 43.341
+FID is: 56.723
+FID is: 56.139
+FID is: 38.490
+FID is: 38.027
+FID is: 41.415
+FID is: 35.386
+FID is: 43.011
+FID is: 49.770
+FID is: 40.737
+FID is: 43.643
+FID is: 64.318
+FID is: 37.154
+FID is: 47.117
+FID is: 38.486
+FID is: 37.067
+FID is: 44.776
+FID is: 41.279
+FID is: 57.161
+FID is: 52.844
+FID is: 50.208
+FID is: 55.516
+FID is: 40.506
+FID is: 51.108
+FID is: 52.870
+FID is: 52.731
+FID is: 63.959
+FID is: 41.467
+FID is: 44.719
+FID is: 42.225
+FID is: 52.540
+FID is: 42.376
+FID is: 46.973
+FID is: 66.891
+FID is: 62.961
+FID is: 44.409
+FID is: 70.239
+FID is: 41.218
+FID is: 45.324
+FID is: 45.335
+FID is: 51.562
+FID is: 39.899
+FID is: 39.227
+FID is: 50.665
+FID is: 39.660
+FID is: 62.957
+FID is: 43.874
+FID is: 62.802
+FID is: 48.821
+FID is: 49.820
+FID is: 56.568
+FID is: 40.316
+FID is: 46.645
+FID is: 44.415
+FID is: 52.291
+FID is: 69.002
+FID is: 69.561
+FID is: 47.509
+FID is: 69.904
+FID is: 36.149
+ Attack Performance = 5421 / 60000 = 0.09035	
+Done!
+Mean scoers are>> PSNR, SSIM, FID:  31.034200739504687 0.6309107970962646 47.93448202087439

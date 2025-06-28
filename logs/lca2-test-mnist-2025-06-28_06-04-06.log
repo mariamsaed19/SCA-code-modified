@@ -1,0 +1,12 @@
+**********Test Starting************
+  0%|          | 0/1875 [00:00<?, ?it/s]  0%|          | 0/1875 [00:00<?, ?it/s]
+Traceback (most recent call last):
+  File "/scratch/mt/new-structure/experiments/msaeed/masters/SCA/MNIST/test-lca2.py", line 197, in <module>
+    psnr_lst, ssim_lst, fid_lst=attack_test(train_loader, target_model, attack_model)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/mt/new-structure/experiments/msaeed/masters/SCA/MNIST/test-lca2.py", line 138, in attack_test
+    target_outputs = target_model.first_part(data)
+                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/m.saeed/miniconda3/envs/sca/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1940, in __getattr__
+    raise AttributeError(
+AttributeError: 'DataParallel' object has no attribute 'first_part'

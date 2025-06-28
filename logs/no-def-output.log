@@ -1,0 +1,1044 @@
+
+Training Performance:
+acc: 82.3%, avg loss: 0.589625
+
+
+Training Performance:
+acc: 92.6%, avg loss: 0.254724
+
+
+Training Performance:
+acc: 94.3%, avg loss: 0.195668
+
+
+Training Performance:
+acc: 95.1%, avg loss: 0.166403
+
+
+Training Performance:
+acc: 95.6%, avg loss: 0.149139
+
+
+Training Performance:
+acc: 95.9%, avg loss: 0.138204
+
+
+Training Performance:
+acc: 96.1%, avg loss: 0.129900
+
+
+Training Performance:
+acc: 96.4%, avg loss: 0.122759
+
+
+Training Performance:
+acc: 96.5%, avg loss: 0.117227
+
+
+Training Performance:
+acc: 96.6%, avg loss: 0.113877
+
+
+Training Performance:
+acc: 96.7%, avg loss: 0.110257
+
+
+Training Performance:
+acc: 96.8%, avg loss: 0.105963
+
+
+Training Performance:
+acc: 97.0%, avg loss: 0.102054
+
+
+Training Performance:
+acc: 97.0%, avg loss: 0.100376
+
+
+Training Performance:
+acc: 97.1%, avg loss: 0.096693
+
+
+Training Performance:
+acc: 97.1%, avg loss: 0.095175
+
+
+Training Performance:
+acc: 97.2%, avg loss: 0.092738
+
+
+Training Performance:
+acc: 97.3%, avg loss: 0.090770
+
+
+Training Performance:
+acc: 97.3%, avg loss: 0.088737
+
+
+Training Performance:
+acc: 97.4%, avg loss: 0.086412
+
+
+Training Performance:
+acc: 97.4%, avg loss: 0.085479
+
+
+Training Performance:
+acc: 97.5%, avg loss: 0.082931
+
+
+Training Performance:
+acc: 97.5%, avg loss: 0.082468
+
+
+Training Performance:
+acc: 97.6%, avg loss: 0.080354
+
+
+Training Performance:
+acc: 97.6%, avg loss: 0.078777
+
++++++++++Target Test+++++++++
+Target Model Accuracy = 9698 / 10000 = 0.9698
+**********Test Starting************
+FID is: 11.908
+FID is: 14.175
+FID is: 13.243
+FID is: 16.061
+FID is: 12.715
+FID is: 12.357
+FID is: 17.636
+FID is: 18.494
+FID is: 17.357
+FID is: 18.628
+FID is: 18.912
+FID is: 15.200
+FID is: 14.896
+FID is: 13.211
+FID is: 13.614
+FID is: 12.222
+FID is: 9.998
+FID is: 14.239
+FID is: 13.175
+FID is: 11.208
+FID is: 13.807
+FID is: 13.015
+FID is: 14.910
+FID is: 12.509
+FID is: 11.721
+FID is: 14.347
+FID is: 16.437
+FID is: 15.013
+FID is: 13.374
+FID is: 15.598
+FID is: 13.027
+FID is: 17.343
+FID is: 22.275
+FID is: 15.526
+FID is: 12.304
+FID is: 16.408
+FID is: 24.359
+FID is: 22.618
+FID is: 17.040
+FID is: 15.637
+FID is: 12.873
+FID is: 12.318
+FID is: 14.423
+FID is: 14.425
+FID is: 14.926
+FID is: 16.488
+FID is: 14.077
+FID is: 13.582
+FID is: 18.189
+FID is: 15.037
+FID is: 11.363
+FID is: 14.802
+FID is: 18.075
+FID is: 13.112
+FID is: 14.678
+FID is: 15.306
+FID is: 17.862
+FID is: 12.510
+FID is: 20.773
+FID is: 19.350
+FID is: 16.428
+FID is: 15.074
+FID is: 9.941
+FID is: 16.850
+FID is: 16.461
+FID is: 15.129
+FID is: 11.473
+FID is: 16.051
+FID is: 13.879
+FID is: 13.700
+FID is: 21.328
+FID is: 14.962
+FID is: 16.345
+FID is: 23.058
+FID is: 16.169
+FID is: 17.365
+FID is: 16.682
+FID is: 15.450
+FID is: 12.847
+FID is: 17.755
+FID is: 16.131
+FID is: 19.724
+FID is: 16.932
+FID is: 19.429
+FID is: 14.075
+FID is: 18.143
+FID is: 13.411
+FID is: 15.704
+FID is: 10.449
+FID is: 16.169
+FID is: 13.461
+FID is: 13.799
+FID is: 24.372
+FID is: 16.536
+FID is: 18.249
+FID is: 21.483
+FID is: 13.552
+FID is: 12.096
+FID is: 13.993
+FID is: 11.578
+FID is: 11.123
+FID is: 13.781
+FID is: 8.999
+FID is: 11.113
+FID is: 12.998
+FID is: 22.731
+FID is: 15.098
+FID is: 21.223
+FID is: 13.231
+FID is: 14.035
+FID is: 13.779
+FID is: 19.261
+FID is: 14.821
+FID is: 23.946
+FID is: 18.328
+FID is: 19.239
+FID is: 13.982
+FID is: 14.035
+FID is: 20.164
+FID is: 13.380
+FID is: 19.908
+FID is: 16.888
+FID is: 13.874
+FID is: 17.246
+FID is: 13.050
+FID is: 14.119
+FID is: 17.159
+FID is: 15.115
+FID is: 14.745
+FID is: 15.601
+FID is: 13.191
+FID is: 26.890
+FID is: 17.613
+FID is: 15.411
+FID is: 10.874
+FID is: 13.955
+FID is: 13.489
+FID is: 17.579
+FID is: 13.317
+FID is: 8.760
+FID is: 11.238
+FID is: 15.882
+FID is: 17.225
+FID is: 12.762
+FID is: 10.942
+FID is: 21.279
+FID is: 13.729
+FID is: 18.002
+FID is: 15.427
+FID is: 24.046
+FID is: 20.798
+FID is: 14.977
+FID is: 17.907
+FID is: 14.645
+FID is: 14.095
+FID is: 16.348
+FID is: 16.298
+FID is: 18.661
+FID is: 13.845
+FID is: 18.560
+FID is: 12.419
+FID is: 14.540
+FID is: 21.551
+FID is: 16.174
+FID is: 18.942
+FID is: 20.594
+FID is: 12.072
+FID is: 21.507
+FID is: 13.805
+FID is: 11.034
+FID is: 8.354
+FID is: 19.998
+FID is: 15.314
+FID is: 13.329
+FID is: 17.501
+FID is: 23.369
+FID is: 11.711
+FID is: 17.682
+FID is: 21.074
+FID is: 17.215
+FID is: 17.307
+FID is: 17.518
+FID is: 13.199
+FID is: 14.653
+FID is: 17.274
+FID is: 17.714
+FID is: 16.237
+FID is: 14.925
+FID is: 16.781
+FID is: 11.531
+FID is: 16.914
+FID is: 13.190
+FID is: 13.654
+FID is: 11.799
+FID is: 13.817
+FID is: 19.012
+FID is: 19.081
+FID is: 14.138
+FID is: 17.049
+FID is: 14.333
+FID is: 16.275
+FID is: 13.533
+FID is: 14.638
+FID is: 12.701
+FID is: 17.259
+FID is: 12.640
+FID is: 14.079
+FID is: 19.180
+FID is: 13.195
+FID is: 21.937
+FID is: 14.830
+FID is: 13.606
+FID is: 17.852
+FID is: 12.439
+FID is: 18.753
+FID is: 13.313
+FID is: 17.034
+FID is: 14.711
+FID is: 15.740
+FID is: 20.508
+FID is: 11.917
+FID is: 12.801
+FID is: 13.388
+FID is: 16.781
+FID is: 11.494
+FID is: 14.733
+FID is: 14.631
+FID is: 11.849
+FID is: 19.206
+FID is: 13.953
+FID is: 13.502
+FID is: 14.245
+FID is: 19.835
+FID is: 12.217
+FID is: 12.878
+FID is: 14.038
+FID is: 15.903
+FID is: 17.021
+FID is: 10.905
+FID is: 14.166
+FID is: 16.597
+FID is: 11.858
+FID is: 14.581
+FID is: 17.208
+FID is: 13.530
+FID is: 22.735
+FID is: 17.081
+FID is: 13.348
+FID is: 14.763
+FID is: 12.582
+FID is: 17.303
+FID is: 19.787
+FID is: 14.589
+FID is: 14.499
+FID is: 11.943
+FID is: 13.869
+FID is: 19.536
+FID is: 13.088
+FID is: 18.299
+FID is: 15.330
+FID is: 14.103
+FID is: 10.254
+FID is: 15.330
+FID is: 13.407
+FID is: 15.165
+FID is: 20.712
+FID is: 17.439
+FID is: 17.915
+FID is: 12.651
+FID is: 25.491
+FID is: 13.573
+FID is: 13.674
+FID is: 16.606
+FID is: 13.203
+FID is: 17.292
+FID is: 17.210
+FID is: 11.398
+FID is: 22.568
+FID is: 16.757
+FID is: 14.944
+FID is: 12.635
+FID is: 14.800
+FID is: 15.785
+FID is: 17.349
+FID is: 17.430
+FID is: 12.413
+FID is: 14.675
+FID is: 13.713
+FID is: 14.993
+FID is: 15.437
+FID is: 17.057
+FID is: 16.827
+FID is: 14.222
+FID is: 16.918
+FID is: 15.307
+FID is: 13.535
+FID is: 11.815
+FID is: 12.928
+FID is: 19.787
+FID is: 12.926
+FID is: 12.705
+FID is: 13.145
+FID is: 16.873
+FID is: 14.785
+FID is: 17.363
+FID is: 20.824
+FID is: 14.819
+FID is: 13.258
+FID is: 13.421
+FID is: 13.758
+FID is: 15.706
+FID is: 12.991
+FID is: 13.769
+FID is: 16.708
+FID is: 14.742
+FID is: 17.572
+FID is: 16.365
+FID is: 15.956
+FID is: 12.113
+FID is: 16.183
+FID is: 12.499
+FID is: 11.109
+FID is: 15.473
+FID is: 23.561
+FID is: 15.875
+FID is: 14.194
+FID is: 15.517
+FID is: 11.591
+FID is: 15.212
+FID is: 11.906
+FID is: 18.627
+FID is: 13.541
+FID is: 19.255
+FID is: 16.921
+FID is: 10.385
+FID is: 13.816
+FID is: 22.588
+FID is: 14.759
+FID is: 15.019
+FID is: 16.651
+FID is: 15.558
+FID is: 19.931
+FID is: 16.508
+FID is: 17.073
+FID is: 13.690
+FID is: 14.333
+FID is: 15.519
+FID is: 14.711
+FID is: 18.011
+FID is: 13.768
+FID is: 17.943
+FID is: 16.293
+FID is: 10.647
+FID is: 16.951
+FID is: 12.231
+FID is: 10.853
+FID is: 7.107
+FID is: 15.929
+FID is: 12.548
+FID is: 12.776
+FID is: 17.076
+FID is: 15.675
+FID is: 18.565
+FID is: 15.382
+FID is: 12.824
+FID is: 22.520
+FID is: 19.432
+FID is: 13.212
+FID is: 12.306
+FID is: 20.073
+FID is: 21.726
+FID is: 13.451
+FID is: 14.425
+FID is: 13.041
+FID is: 17.281
+FID is: 17.521
+FID is: 13.615
+FID is: 15.904
+FID is: 13.426
+FID is: 14.162
+FID is: 20.112
+FID is: 16.667
+FID is: 15.142
+FID is: 15.067
+FID is: 19.786
+FID is: 17.267
+FID is: 16.189
+FID is: 20.686
+FID is: 14.149
+FID is: 21.188
+FID is: 19.443
+FID is: 15.937
+FID is: 16.749
+FID is: 17.582
+FID is: 19.914
+FID is: 16.171
+FID is: 20.173
+FID is: 12.987
+FID is: 12.227
+FID is: 17.962
+FID is: 11.758
+FID is: 13.277
+FID is: 10.757
+FID is: 19.448
+FID is: 12.302
+FID is: 15.181
+FID is: 18.521
+FID is: 8.815
+FID is: 10.546
+FID is: 10.016
+FID is: 16.112
+FID is: 15.794
+FID is: 11.668
+FID is: 12.977
+FID is: 14.304
+FID is: 12.958
+FID is: 14.730
+FID is: 13.710
+FID is: 15.884
+FID is: 14.602
+FID is: 19.897
+FID is: 13.855
+FID is: 11.854
+FID is: 13.620
+FID is: 26.138
+FID is: 21.554
+FID is: 12.846
+FID is: 14.986
+FID is: 12.160
+FID is: 13.111
+FID is: 16.367
+FID is: 13.110
+FID is: 15.482
+FID is: 10.844
+FID is: 17.454
+FID is: 14.883
+FID is: 17.851
+FID is: 13.937
+FID is: 13.787
+FID is: 21.604
+FID is: 16.223
+FID is: 20.160
+FID is: 16.181
+FID is: 14.773
+FID is: 15.539
+FID is: 14.760
+FID is: 18.050
+FID is: 15.811
+FID is: 21.756
+FID is: 16.156
+FID is: 13.236
+FID is: 13.647
+FID is: 18.064
+FID is: 13.480
+FID is: 14.075
+FID is: 13.088
+FID is: 13.957
+FID is: 12.105
+FID is: 13.471
+FID is: 15.911
+FID is: 12.766
+FID is: 17.540
+FID is: 13.718
+FID is: 16.936
+FID is: 13.539
+FID is: 12.841
+FID is: 15.979
+FID is: 15.979
+FID is: 14.846
+FID is: 13.103
+FID is: 14.308
+FID is: 15.931
+FID is: 14.111
+FID is: 17.315
+FID is: 17.510
+FID is: 13.243
+FID is: 21.366
+FID is: 10.493
+FID is: 14.265
+FID is: 19.613
+FID is: 15.585
+FID is: 16.060
+FID is: 21.716
+FID is: 14.930
+FID is: 14.512
+FID is: 16.367
+FID is: 16.029
+FID is: 14.791
+FID is: 12.731
+FID is: 14.727
+FID is: 12.543
+FID is: 10.829
+FID is: 10.357
+FID is: 13.448
+FID is: 16.861
+FID is: 17.569
+FID is: 14.875
+FID is: 15.535
+FID is: 14.367
+FID is: 11.999
+FID is: 13.841
+FID is: 17.191
+FID is: 20.949
+FID is: 15.123
+FID is: 20.281
+FID is: 11.874
+FID is: 17.540
+FID is: 21.287
+FID is: 13.333
+FID is: 21.489
+FID is: 14.344
+FID is: 18.093
+FID is: 14.765
+FID is: 15.892
+FID is: 15.869
+FID is: 19.866
+FID is: 16.607
+FID is: 13.755
+FID is: 15.573
+FID is: 14.519
+FID is: 19.066
+FID is: 15.579
+FID is: 18.387
+FID is: 13.079
+FID is: 12.845
+FID is: 14.143
+FID is: 12.752
+FID is: 14.765
+FID is: 20.048
+FID is: 15.342
+FID is: 17.800
+FID is: 16.405
+FID is: 15.702
+FID is: 14.999
+FID is: 22.781
+FID is: 14.943
+FID is: 12.887
+FID is: 14.729
+FID is: 9.376
+FID is: 20.958
+FID is: 20.978
+FID is: 15.039
+FID is: 16.538
+FID is: 10.100
+FID is: 14.562
+FID is: 13.951
+FID is: 14.006
+FID is: 17.385
+FID is: 11.336
+FID is: 15.642
+FID is: 16.136
+FID is: 20.375
+FID is: 13.623
+FID is: 12.748
+FID is: 12.777
+FID is: 14.770
+FID is: 18.871
+FID is: 14.204
+FID is: 16.291
+FID is: 16.039
+FID is: 15.643
+FID is: 11.847
+FID is: 13.711
+FID is: 18.234
+FID is: 18.452
+FID is: 14.157
+FID is: 16.204
+FID is: 15.446
+FID is: 12.883
+FID is: 15.335
+FID is: 12.634
+FID is: 12.633
+FID is: 24.643
+FID is: 13.674
+FID is: 13.937
+FID is: 12.075
+FID is: 20.533
+FID is: 24.490
+FID is: 13.737
+FID is: 18.405
+FID is: 15.522
+FID is: 15.460
+FID is: 15.353
+FID is: 13.500
+FID is: 16.845
+FID is: 16.457
+FID is: 11.001
+FID is: 11.317
+FID is: 15.193
+FID is: 12.488
+FID is: 15.124
+FID is: 12.765
+FID is: 24.991
+FID is: 11.244
+FID is: 19.496
+FID is: 17.932
+FID is: 15.740
+FID is: 10.645
+FID is: 13.140
+FID is: 12.142
+FID is: 13.991
+FID is: 16.876
+FID is: 18.226
+FID is: 16.327
+FID is: 14.763
+FID is: 17.467
+FID is: 15.438
+FID is: 13.196
+FID is: 16.925
+FID is: 15.824
+FID is: 23.409
+FID is: 17.792
+FID is: 13.083
+FID is: 20.734
+FID is: 12.109
+FID is: 14.669
+FID is: 12.796
+FID is: 15.861
+FID is: 11.930
+FID is: 21.144
+FID is: 15.516
+FID is: 12.382
+FID is: 15.941
+FID is: 15.612
+FID is: 16.387
+FID is: 16.664
+FID is: 15.426
+FID is: 20.374
+FID is: 17.973
+FID is: 24.079
+FID is: 19.372
+FID is: 12.111
+FID is: 11.402
+FID is: 15.947
+FID is: 19.552
+FID is: 14.440
+FID is: 12.972
+FID is: 13.883
+FID is: 15.192
+FID is: 13.910
+FID is: 17.621
+FID is: 16.480
+FID is: 16.408
+FID is: 16.818
+FID is: 10.968
+FID is: 11.585
+FID is: 16.437
+FID is: 16.708
+FID is: 18.784
+FID is: 15.106
+FID is: 20.666
+FID is: 16.432
+FID is: 13.305
+FID is: 12.557
+FID is: 17.054
+FID is: 13.534
+FID is: 14.820
+FID is: 16.843
+FID is: 12.897
+FID is: 12.099
+FID is: 16.296
+FID is: 10.710
+FID is: 17.480
+FID is: 9.435
+FID is: 12.007
+FID is: 14.786
+FID is: 13.937
+FID is: 12.555
+FID is: 16.699
+FID is: 15.816
+FID is: 12.531
+FID is: 20.944
+FID is: 12.510
+FID is: 20.171
+FID is: 12.428
+FID is: 13.076
+FID is: 14.413
+FID is: 13.295
+FID is: 13.799
+FID is: 16.179
+FID is: 12.206
+FID is: 17.856
+FID is: 15.102
+FID is: 20.504
+FID is: 14.656
+FID is: 13.165
+FID is: 15.816
+FID is: 16.198
+FID is: 12.637
+FID is: 15.208
+FID is: 19.222
+FID is: 11.771
+FID is: 14.576
+FID is: 27.739
+FID is: 14.476
+FID is: 14.842
+FID is: 18.044
+FID is: 18.289
+FID is: 20.587
+FID is: 11.165
+FID is: 19.458
+FID is: 18.246
+FID is: 18.396
+FID is: 22.441
+FID is: 15.664
+FID is: 13.970
+FID is: 14.483
+FID is: 14.617
+FID is: 14.486
+FID is: 9.104
+FID is: 12.538
+FID is: 14.467
+FID is: 12.691
+FID is: 14.035
+FID is: 16.049
+FID is: 20.397
+FID is: 17.093
+FID is: 13.820
+FID is: 13.512
+FID is: 13.022
+FID is: 12.312
+FID is: 20.067
+FID is: 18.087
+FID is: 18.460
+FID is: 18.772
+FID is: 16.373
+FID is: 13.364
+FID is: 15.198
+FID is: 17.864
+FID is: 13.399
+FID is: 18.827
+FID is: 15.012
+FID is: 20.456
+FID is: 11.004
+FID is: 13.089
+FID is: 13.388
+FID is: 19.576
+FID is: 18.993
+FID is: 21.033
+FID is: 15.864
+FID is: 13.751
+FID is: 13.428
+FID is: 13.881
+FID is: 17.113
+FID is: 18.884
+FID is: 15.014
+FID is: 12.933
+FID is: 12.674
+FID is: 11.968
+FID is: 23.966
+FID is: 16.099
+FID is: 13.105
+FID is: 17.462
+FID is: 13.823
+FID is: 18.102
+FID is: 14.607
+FID is: 20.965
+FID is: 18.435
+FID is: 21.429
+FID is: 16.989
+FID is: 13.172
+FID is: 15.837
+FID is: 19.291
+FID is: 13.437
+FID is: 11.792
+FID is: 17.803
+FID is: 18.862
+FID is: 17.633
+FID is: 14.001
+FID is: 14.554
+FID is: 20.555
+FID is: 15.052
+FID is: 13.146
+FID is: 15.082
+FID is: 15.395
+FID is: 15.893
+FID is: 13.198
+FID is: 12.986
+FID is: 20.322
+FID is: 13.301
+FID is: 12.524
+FID is: 11.817
+FID is: 15.820
+FID is: 14.577
+FID is: 10.936
+FID is: 11.994
+FID is: 11.300
+FID is: 15.836
+FID is: 13.000
+FID is: 12.540
+FID is: 19.110
+FID is: 11.610
+FID is: 22.898
+FID is: 22.175
+FID is: 14.695
+FID is: 14.756
+FID is: 15.932
+FID is: 15.584
+FID is: 14.591
+FID is: 15.755
+FID is: 18.030
+FID is: 26.662
+FID is: 20.783
+FID is: 13.315
+FID is: 14.429
+FID is: 13.416
+FID is: 13.410
+FID is: 12.643
+FID is: 15.238
+FID is: 16.809
+FID is: 12.787
+FID is: 13.856
+FID is: 15.838
+FID is: 25.641
+FID is: 12.045
+FID is: 12.488
+FID is: 14.744
+FID is: 17.826
+FID is: 11.467
+FID is: 20.161
+FID is: 22.363
+FID is: 15.841
+FID is: 14.475
+FID is: 9.936
+FID is: 13.599
+FID is: 10.408
+FID is: 14.428
+FID is: 10.704
+FID is: 17.574
+FID is: 12.624
+FID is: 11.835
+FID is: 11.935
+FID is: 11.893
+FID is: 23.275
+FID is: 14.342
+FID is: 21.767
+FID is: 15.734
+FID is: 16.189
+FID is: 18.893
+FID is: 18.084
+FID is: 14.357
+FID is: 16.661
+FID is: 23.738
+FID is: 13.296
+FID is: 14.590
+FID is: 14.808
+FID is: 20.937
+FID is: 19.738
+FID is: 14.870
+FID is: 14.349
+FID is: 15.976
+FID is: 13.767
+FID is: 13.003
+FID is: 13.398
+FID is: 16.543
+FID is: 12.558
+FID is: 14.385
+FID is: 19.579
+FID is: 16.204
+FID is: 14.348
+FID is: 16.283
+FID is: 12.137
+FID is: 12.824
+FID is: 10.648
+FID is: 21.951
+FID is: 20.558
+FID is: 11.201
+FID is: 17.154
+FID is: 19.969
+FID is: 11.317
+FID is: 14.558
+FID is: 14.348
+FID is: 23.284
+FID is: 24.116
+FID is: 13.460
+FID is: 20.672
+FID is: 13.898
+FID is: 20.569
+FID is: 16.573
+FID is: 12.336
+FID is: 14.588
+FID is: 14.682
+FID is: 16.689
+FID is: 11.723
+FID is: 12.866
+FID is: 15.833
+FID is: 12.017
+FID is: 14.689
+FID is: 10.866
+FID is: 14.981
+FID is: 18.509
+FID is: 11.097
+FID is: 16.328
+FID is: 14.863
+FID is: 13.471
+FID is: 12.224
+FID is: 12.633
+FID is: 14.537
+FID is: 11.348
+FID is: 12.070
+FID is: 17.526
+FID is: 13.388
+FID is: 21.034
+FID is: 19.167
+FID is: 15.798
+FID is: 17.725
+FID is: 12.757
+FID is: 26.564
+FID is: 16.510
+FID is: 14.415
+FID is: 15.149
+FID is: 16.967
+FID is: 11.902
+FID is: 17.895
+FID is: 22.597
+FID is: 15.534
+FID is: 10.594
+FID is: 15.876
+FID is: 11.765
+FID is: 17.945
+FID is: 20.016
+FID is: 15.390
+FID is: 17.571
+FID is: 18.936
+FID is: 12.062
+FID is: 16.015
+FID is: 19.087
+FID is: 13.923
+FID is: 21.118
+FID is: 15.535
+FID is: 12.120
+FID is: 9.558
+FID is: 12.397
+FID is: 10.926
+FID is: 16.529
+FID is: 16.557
+FID is: 14.119
+FID is: 11.228
+ Attack Performance = 9797 / 60000 = 0.16328333333333334	
+Done!
+Mean scoers are>> PSNR, SSIM, FID:  40.915235279465534 0.9323710054476887 15.561316790328803

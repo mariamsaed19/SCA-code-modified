@@ -46,9 +46,9 @@ n_critic = 5
 display_step = 50
 ## Fetch data from Google Drive 
 # Root directory for the dataset
-data_root = '/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/celeba/data'
+data_root = './data/celeba'
 # Path to folder with the dataset
-dataset_folder = f'{data_root}/img_align_celeba/img_align_celeba'
+dataset_folder = f'{data_root}/img_align_celeba'
 
 
 class FaceCelebADataset(Dataset):
@@ -105,7 +105,7 @@ transform__op=torchvision.transforms.Compose([
                           std=[0.5, 0.5, 0.5])
                               ])
 
-face_dataset = FaceCelebADataset(csv_file='/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/celeba/data/list_attr_celeba.csv',
+face_dataset = FaceCelebADataset(csv_file='./data/celeba/list_attr_celeba.csv',
                                     root_dir=dataset_folder, transform=transform__op)
 #face_dataset = FaceLandmarksDataset(csv_file='/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/celeba/data/list_landmarks_align_celeba.csv',
 #                                    root_dir=dataset_folder, transform=transform__op)
@@ -290,8 +290,8 @@ def discriminator_train_step(batch_size, discriminator, generator, d_optimizer, 
 
 
 #no_len = (i for i in range(num_epochs))
-for epoch in range(num_epochs):
-    print('Starting epoch {}...'.format(epoch), end=' ')
+for epoch in tqdm(range(num_epochs)):
+    # print('Starting epoch {}...'.format(epoch), end=' ')
     for i, (images, labels) in enumerate (tqdm(data_loader)):
         
         step = epoch * len(data_loader) + i + 1

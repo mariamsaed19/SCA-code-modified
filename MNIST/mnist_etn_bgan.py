@@ -32,7 +32,7 @@ transform = transforms.Compose([
         transforms.ToTensor(),
         transforms.Normalize([0.5], [0.5])
 ])
-train_data= torchvision.datasets.MNIST('/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/data', train=True, download=True,
+train_data= torchvision.datasets.MNIST('./data', train=True, download=True,
                              transform=torchvision.transforms.Compose([
                                torchvision.transforms.ToTensor(),
                                torchvision.transforms.Normalize(
@@ -49,7 +49,7 @@ train_subset2 = torch.utils.data.Subset(train_data, sampler_data)
 #train_loader2 = torch.utils.data.DataLoader(train_subset2, batch_size=batch_size_train,
 #                                            shuffle=True)
 train_loader = torch.utils.data.DataLoader(
-  torchvision.datasets.MNIST('/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/data', train=True, download=True,
+  torchvision.datasets.MNIST('./data', train=True, download=True,
                              transform=torchvision.transforms.Compose([
                                torchvision.transforms.ToTensor(),
                                torchvision.transforms.Normalize(
@@ -57,7 +57,7 @@ train_loader = torch.utils.data.DataLoader(
                              ])),
   batch_size=batch_size_train, shuffle=True)
 train_loader1 = torch.utils.data.DataLoader(
-  torchvision.datasets.MNIST('/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/data', train=True, download=True,
+  torchvision.datasets.MNIST('./data', train=True, download=True,
                              transform=torchvision.transforms.Compose([
                                torchvision.transforms.ToTensor(),
                                torchvision.transforms.Normalize(
@@ -65,7 +65,7 @@ train_loader1 = torch.utils.data.DataLoader(
                              ])),
   batch_size=batch_size_train, shuffle=True)
 train_loader2= torch.utils.data.DataLoader(
-  torchvision.datasets.FashionMNIST('/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/data', train=True, download=True,
+  torchvision.datasets.FashionMNIST('./data', train=True, download=True,
                              transform=torchvision.transforms.Compose([
                                torchvision.transforms.ToTensor(),
                                torchvision.transforms.Normalize(
@@ -74,7 +74,7 @@ train_loader2= torch.utils.data.DataLoader(
   batch_size=batch_size_train, shuffle=True)
 
 test_loader = torch.utils.data.DataLoader(
-  torchvision.datasets.MNIST('/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/data', train=False, download=True,
+  torchvision.datasets.MNIST('./data', train=False, download=True,
                              transform=torchvision.transforms.Compose([
                                torchvision.transforms.ToTensor(),
                                torchvision.transforms.Normalize(
@@ -143,7 +143,7 @@ class Generator(nn.Module):
         c = self.label_emb(labels)
         x = torch.cat([z, c], 1)
         out = self.model(x)
-        print(x.shape)
+        # print(x.shape)
         return out.view(x.size(0), 28, 28)
         
 generator = Generator().to(device)
@@ -182,8 +182,8 @@ def discriminator_train_step(batch_size, discriminator, generator, d_optimizer, 
     d_loss.backward()
     d_optimizer.step()
     return d_loss.item()
-for epoch in range(num_epochs):
-    print('Starting epoch {}...'.format(epoch), end=' ')
+for epoch in tqdm(range(num_epochs)):
+    # print('Starting epoch {}...'.format(epoch), end=' ')
     for i, (images, labels) in enumerate (tqdm(data_loader)):
         
         step = epoch * len(data_loader) + i + 1
@@ -403,7 +403,7 @@ def classifier_train(train_loader2, clf_model, optimiser):
         for i in range(Y[0]):
             label=Y[i]
             recreated_data=generate_img(generator, label)
-            print(recreated_data.shape)
+            # print(recreated_data.shape)
             recon_img=recreated_data[0]/ 1 + 0.5
             #print(pred.shape, Y.shape)
             #recon_img=torch.permute(recon_img, (2,1, 0))
@@ -454,7 +454,7 @@ def target_train(train_loader1, target_model, optimiser):
         for i in range(Y[0]):
             label=Y[i]
             recreated_data=generate_img(generator, label)
-            print(recreated_data.shape)
+            # print(recreated_data.shape)
             recon_img=recreated_data[0]/ 1 + 0.5
             #print(pred.shape, Y.shape)
             #recon_img=torch.permute(recon_img, (2,1, 0))
@@ -507,7 +507,7 @@ def attack_train(test_loader, target_model, clf_model, attack_model, optimiser):
         target_outputs = target_model.first_part(data)
         #target_outputs= target_outputs.view(-1,32*32*500)
         target_outputs = target_model.second_part(target_outputs)  
-        print(target_outputs.shape)      
+        # print(target_outputs.shape)      
         # Next, recreate the data with the attacker
         attack_outputs = attack_model(target_outputs)
         
@@ -518,7 +518,7 @@ def attack_train(test_loader, target_model, clf_model, attack_model, optimiser):
         #target_outputs= target_outputs.view(-1,32*32*500)
         clf_outputs = clf_model.second_part(clf_outputs)        
         # Next, recreate the data with the attacker
-        print(clf_outputs.shape)      
+        # print(clf_outputs.shape)      
         attack_outputs2 = attack_model(clf_outputs)
         
         # We want attack outputs to resemble the original data
@@ -648,7 +648,7 @@ def attack_test(train_loader, target_model, attack_model):
         plt.yticks([])
         #plt.imshow(mfcc_spectrogram[0][0,:,:].numpy(), cmap='viridis')
         plt.draw()
-        plt.savefig(f'/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/plot/gan_bench/recon_img{batch}.jpg', dpi=100, bbox_inches='tight')
+        plt.savefig(f'./plot/gan_bench/recon_img{batch}.jpg', dpi=100, bbox_inches='tight')
         '''
         psnr_lst.append(psnr_val)
         ssim_lst.append(ssim_val)
@@ -663,17 +663,17 @@ def attack_test(train_loader, target_model, attack_model):
 
 target_epochs=25
 clf_loss_train_tr, clf_loss_test_tr=[],[]
+print("+++++++++CLF Training Starting+++++++++")
 for t in tqdm(range(target_epochs)):
-    print(f'Epoch {t+1}\n-------------------------------')
-    print("+++++++++CLF Training Starting+++++++++")
+    # print(f'Epoch {t+1}\n-------------------------------')
     tr_loss, result_train=classifier_train(train_loader2, clf_model, optimiser)
     clf_loss_train_tr.append(tr_loss)
 
 
 loss_train_tr, loss_test_tr=[],[]
+print("+++++++++Target Training Starting+++++++++")
 for t in tqdm(range(target_epochs)):
-    print(f'Epoch {t+1}\n-------------------------------')
-    print("+++++++++Target Training Starting+++++++++")
+    # print(f'Epoch {t+1}\n-------------------------------')
     tr_loss, result_train=target_train(train_loader1, target_model, optimiser)
     loss_train_tr.append(tr_loss)
 
@@ -683,13 +683,16 @@ final_acc=target_utility(test_loader, target_model, batch_size=1)
 attack_epochs=50
 
 loss_train, loss_test=[],[]
+print("+++++++++Training Starting+++++++++")
 for t in tqdm(range(attack_epochs)):
-    print(f'Epoch {t+1}\n-------------------------------')
-    print("+++++++++Training Starting+++++++++")
+    # print(f'Epoch {t+1}\n-------------------------------')
     tr_loss=attack_train(test_loader, target_model, clf_model, attack_model, optimiser)
     loss_train.append(tr_loss)
 
 print("**********Test Starting************")
+torch.save(attack_model, './result/etn/bgan_MNIST_20_epoch_CNN_linear_attack.pt')
+torch.save(target_model, './result/etn/bgan_MNIST_20_epoch_CNN_linear_target.pt')
+
 psnr_lst, ssim_lst, fid_lst=attack_test(train_loader, target_model, attack_model)
 
 
@@ -701,9 +704,7 @@ average_ssim = Average(ssim_lst)
 average_incep = Average(fid_lst)
 print('Mean scoers are>> PSNR, SSIM, FID: ', average_psnr, average_ssim, average_incep)
 
-torch.save(attack_model, '/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/model/gan_MNIST_20_epoch_CNN_linear_attack.pt')
-torch.save(target_model, '/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/model/gan_MNIST_20_epoch_CNN_linear_target.pt')
 
 df = pd.DataFrame(list(zip(*[psnr_lst,  ssim_lst, fid_lst]))).add_prefix('Col')
 
-df.to_csv('/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/result/gan_MNIST_20_epoch_CNN_attack_linear.csv', index=False)
+df.to_csv('./result/bgan_MNIST_20_epoch_CNN_attack_linear.csv', index=False)

@@ -33,7 +33,7 @@ transform = transforms.Compose([
         transforms.Normalize([0.5], [0.5])
 ])
 train_loader = torch.utils.data.DataLoader(
-  torchvision.datasets.MNIST('/vast/home/sdibbo/def_ddlc/data', train=True, download=True,
+  torchvision.datasets.MNIST('./data', train=True, download=True,
                              transform=torchvision.transforms.Compose([
                                torchvision.transforms.ToTensor(),
                                torchvision.transforms.Normalize(
@@ -42,7 +42,7 @@ train_loader = torch.utils.data.DataLoader(
   batch_size=batch_size_train, shuffle=True)
 
 test_loader = torch.utils.data.DataLoader(
-  torchvision.datasets.MNIST('/vast/home/sdibbo/def_ddlc/data', train=False, download=True,
+  torchvision.datasets.MNIST('./data', train=False, download=True,
                              transform=torchvision.transforms.Compose([
                                torchvision.transforms.ToTensor(),
                                torchvision.transforms.Normalize(
@@ -53,7 +53,7 @@ data_loader = torch.utils.data.DataLoader(MNIST('data', train=True, download=Tru
                                           batch_size=gan_batch_size, shuffle=True)
 '''
 attack_loader = torch.utils.data.DataLoader(
-  torchvision.datasets.CIFAR10('/vast/home/sdibbo/def_ddlc/data', train=True, download=True,
+  torchvision.datasets.CIFAR10('./data', train=True, download=True,
                              transform=torchvision.transforms.Compose([
                                torchvision.transforms.ToTensor(),
                                torchvision.transforms.Normalize(
@@ -111,7 +111,7 @@ class Generator(nn.Module):
         c = self.label_emb(labels)
         x = torch.cat([z, c], 1)
         out = self.model(x)
-        print(x.shape)
+        # print(x.shape)
         return out.view(x.size(0), 28, 28)
         
 generator = Generator().to(device)
@@ -150,8 +150,8 @@ def discriminator_train_step(batch_size, discriminator, generator, d_optimizer, 
     d_loss.backward()
     d_optimizer.step()
     return d_loss.item()
-for epoch in range(num_epochs):
-    print('Starting epoch {}...'.format(epoch), end=' ')
+for epoch in tqdm(range(num_epochs)):
+    # print('Starting epoch {}...'.format(epoch), end=' ')
     for i, (images, labels) in enumerate (tqdm(data_loader)):
         
         step = epoch * len(data_loader) + i + 1
@@ -314,7 +314,7 @@ def target_train(train_loader, target_model, optimiser):
         for i in range(Y[0]):
             label=Y[i]
             recreated_data=generate_img(generator, label)
-            print(recreated_data.shape)
+            # print(recreated_data.shape)
             recon_img=recreated_data[0]/ 1 + 0.5
             #print(pred.shape, Y.shape)
             #recon_img=torch.permute(recon_img, (2,1, 0))
@@ -508,9 +508,9 @@ def attack_test(train_loader, target_model, attack_model):
 
 target_epochs=25
 loss_train_tr, loss_test_tr=[],[]
+print("+++++++++Target Training Starting+++++++++")
 for t in tqdm(range(target_epochs)):
-    print(f'Epoch {t+1}\n-------------------------------')
-    print("+++++++++Target Training Starting+++++++++")
+    # print(f'Epoch {t+1}\n-------------------------------')
     tr_loss, result_train=target_train(train_loader, target_model, optimiser)
     loss_train_tr.append(tr_loss)
 
@@ -520,9 +520,9 @@ final_acc=target_utility(test_loader, target_model, batch_size=1)
 attack_epochs=50
 
 loss_train, loss_test=[],[]
+print("+++++++++Attack Training Starting+++++++++")
 for t in tqdm(range(attack_epochs)):
-    print(f'Epoch {t+1}\n-------------------------------')
-    print("+++++++++Training Starting+++++++++")
+    # print(f'Epoch {t+1}\n-------------------------------')
     tr_loss=attack_train(test_loader, target_model, attack_model, optimiser)
     loss_train.append(tr_loss)
 
@@ -538,9 +538,9 @@ average_ssim = Average(ssim_lst)
 average_incep = Average(fid_lst)
 print('Mean scoers are>> PSNR, SSIM, FID: ', average_psnr, average_ssim, average_incep)
 
-torch.save(attack_model, '/vast/home/sdibbo/def_ddlc/model_attack/etn/gan_MNIST_20_epoch_CNN_linear_attack.pt')
-torch.save(target_model, '/vast/home/sdibbo/def_ddlc/model_target/etn/gan_MNIST_20_epoch_CNN_linear_target.pt')
+torch.save(attack_model, './result/etn/gan_MNIST_20_epoch_CNN_linear_attack.pt')
+torch.save(target_model, './result/etn/gan_MNIST_20_epoch_CNN_linear_target.pt')
 
 df = pd.DataFrame(list(zip(*[psnr_lst,  ssim_lst, fid_lst]))).add_prefix('Col')
 
-df.to_csv('/vast/home/sdibbo/def_ddlc/result/etn/gan_MNIST_20_epoch_CNN_attack_linear.csv', index=False)
+df.to_csv('./result/etn/gan_MNIST_20_epoch_CNN_attack_linear.csv', index=False)

@@ -24,7 +24,7 @@ batch_size_test = 1
 
 
 train_loader = torch.utils.data.DataLoader(
-  torchvision.datasets.MNIST('/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/data', train=True, download=True,
+  torchvision.datasets.MNIST('./data', train=True, download=True,
                              transform=torchvision.transforms.Compose([
                                torchvision.transforms.ToTensor(),
                                torchvision.transforms.Normalize(
@@ -33,7 +33,7 @@ train_loader = torch.utils.data.DataLoader(
   batch_size=batch_size_train, shuffle=True)
 
 test_loader = torch.utils.data.DataLoader(
-  torchvision.datasets.MNIST('/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/data', train=False, download=True,
+  torchvision.datasets.MNIST('./data', train=False, download=True,
                              transform=torchvision.transforms.Compose([
                                torchvision.transforms.ToTensor(),
                                torchvision.transforms.Normalize(
@@ -197,7 +197,7 @@ def target_train(train_loader, target_model, optimiser):
         X, Y = X.to(device=device), Y.to(device)
         target_model.zero_grad()
         pred = target_model(X)
-        print(pred.shape, Y.shape)
+        # print(pred.shape, Y.shape)
         loss = cost(pred, Y)
         loss.backward()
         optimiser.step()
@@ -355,14 +355,14 @@ def attack_test(train_loader, target_model, attack_model):
 
             #plt.imshow(mfcc_spectrogram[0][0,:,:].numpy(), cmap='viridis')
             #plt.draw()
-            #plt.savefig(f'/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/plot/org_img{batch}.jpg', dpi=100, bbox_inches='tight')
+            #plt.savefig(f'./plot/org_img{batch}.jpg', dpi=100, bbox_inches='tight')
             
             plt.imshow(recreated_data[0][0].cpu().detach().numpy(), cmap='gray')
             plt.xticks([])
             plt.yticks([])
             #plt.imshow(mfcc_spectrogram[0][0,:,:].numpy(), cmap='viridis')
             plt.draw()
-            plt.savefig(f'/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/MNIST/plot/ln1.0/recon_img{batch}.jpg', dpi=100, bbox_inches='tight')
+            plt.savefig(f'./result/etn/plot/recon_ln1.0_img{batch}.jpg', dpi=100, bbox_inches='tight')
             
         psnr_lst.append(psnr_val)
         ssim_lst.append(ssim_val)
@@ -378,8 +378,8 @@ def attack_test(train_loader, target_model, attack_model):
 target_epochs=25
 loss_train_tr, loss_test_tr=[],[]
 for t in tqdm(range(target_epochs)):
-    print(f'Epoch {t+1}\n-------------------------------')
-    print("+++++++++Target Training Starting+++++++++")
+    # print(f'Epoch {t+1}\n-------------------------------')
+    # print("+++++++++Target Training Starting+++++++++")
     tr_loss, result_train=target_train(train_loader, target_model, optimiser)
     loss_train_tr.append(tr_loss)
 
@@ -390,12 +390,14 @@ attack_epochs=25
 
 loss_train, loss_test=[],[]
 for t in tqdm(range(attack_epochs)):
-    print(f'Epoch {t+1}\n-------------------------------')
-    print("+++++++++Training Starting+++++++++")
+    # print(f'Epoch {t+1}\n-------------------------------')
+    # print("+++++++++Training Starting+++++++++")
     tr_loss=attack_train(test_loader, target_model, attack_model, optimiser)
     loss_train.append(tr_loss)
 
 print("**********Test Starting************")
+torch.save(attack_model, './result/etn/MNIST_20_epoch_CNN_ln_noisy_linear_attack_.5lambda.pt')
+torch.save(target_model, './result/etn/MNIST_20_epoch_CNN_ln_noisy_linear_target_.5lambda.pt')
 psnr_lst, ssim_lst, fid_lst=attack_test(train_loader, target_model, attack_model)
 
 
@@ -407,9 +409,7 @@ average_ssim = Average(ssim_lst)
 average_incep = Average(fid_lst)
 print('Mean scoers are>> PSNR, SSIM, FID: ', average_psnr, average_ssim, average_incep)
 
-#torch.save(attack_model, '/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/model/MNIST_20_epoch_CNN_noisy_linear_attack_.5lambda.pt')
-#torch.save(target_model, '/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/model/MNIST_20_epoch_CNN_noisy_linear_target_.5lambda.pt')
 
 df = pd.DataFrame(list(zip(*[psnr_lst,  ssim_lst, fid_lst]))).add_prefix('Col')
 
-#df.to_csv('/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/result/MNIST_20_epoch_CNN_attack_noisy_linear_laplacian_.5lambda.csv', index=False)
+df.to_csv('./result/etn/MNIST_20_epoch_CNN_attack_noisy_linear_laplacian_.5lambda.csv', index=False)

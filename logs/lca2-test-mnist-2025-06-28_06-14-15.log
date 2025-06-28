@@ -1,0 +1,100 @@
+W0628 06:14:18.543000 2669762 site-packages/torch/distributed/run.py:766] 
+W0628 06:14:18.543000 2669762 site-packages/torch/distributed/run.py:766] *****************************************
+W0628 06:14:18.543000 2669762 site-packages/torch/distributed/run.py:766] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0628 06:14:18.543000 2669762 site-packages/torch/distributed/run.py:766] *****************************************
+**********Test Starting************
+**********Test Starting************
+**********Test Starting************
+**********Test Starting************
+  0%|          | 0/469 [00:00<?, ?it/s]  0%|          | 0/469 [00:00<?, ?it/s]
+  0%|          | 0/469 [00:00<?, ?it/s]  0%|          | 0/469 [00:00<?, ?it/s]
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/scratch/mt/new-structure/experiments/msaeed/masters/SCA/MNIST/test-lca2.py", line 219, in <module>
+[rank0]:     psnr_lst, ssim_lst, fid_lst=attack_test(train_loader, target_model, attack_model)
+[rank0]:                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/scratch/mt/new-structure/experiments/msaeed/masters/SCA/MNIST/test-lca2.py", line 146, in attack_test
+[rank0]:     target_outputs = target_model.first_part(data)
+[rank0]:                      ^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/m.saeed/miniconda3/envs/sca/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1940, in __getattr__
+[rank0]:     raise AttributeError(
+[rank0]: AttributeError: 'DistributedDataParallel' object has no attribute 'first_part'
+[rank1]: Traceback (most recent call last):
+[rank1]:   File "/scratch/mt/new-structure/experiments/msaeed/masters/SCA/MNIST/test-lca2.py", line 219, in <module>
+[rank1]:     psnr_lst, ssim_lst, fid_lst=attack_test(train_loader, target_model, attack_model)
+[rank1]:                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/scratch/mt/new-structure/experiments/msaeed/masters/SCA/MNIST/test-lca2.py", line 146, in attack_test
+[rank1]:     target_outputs = target_model.first_part(data)
+[rank1]:                      ^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/m.saeed/miniconda3/envs/sca/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1940, in __getattr__
+[rank1]:     raise AttributeError(
+[rank1]: AttributeError: 'DistributedDataParallel' object has no attribute 'first_part'
+  0%|          | 0/469 [00:00<?, ?it/s]  0%|          | 0/469 [00:00<?, ?it/s]
+  0%|          | 0/469 [00:00<?, ?it/s]  0%|          | 0/469 [00:00<?, ?it/s]
+[rank2]: Traceback (most recent call last):
+[rank2]:   File "/scratch/mt/new-structure/experiments/msaeed/masters/SCA/MNIST/test-lca2.py", line 219, in <module>
+[rank2]:     psnr_lst, ssim_lst, fid_lst=attack_test(train_loader, target_model, attack_model)
+[rank2]:                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/scratch/mt/new-structure/experiments/msaeed/masters/SCA/MNIST/test-lca2.py", line 146, in attack_test
+[rank2]:     target_outputs = target_model.first_part(data)
+[rank2]:                      ^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/m.saeed/miniconda3/envs/sca/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1940, in __getattr__
+[rank2]:     raise AttributeError(
+[rank2]: AttributeError: 'DistributedDataParallel' object has no attribute 'first_part'
+[rank3]: Traceback (most recent call last):
+[rank3]:   File "/scratch/mt/new-structure/experiments/msaeed/masters/SCA/MNIST/test-lca2.py", line 219, in <module>
+[rank3]:     psnr_lst, ssim_lst, fid_lst=attack_test(train_loader, target_model, attack_model)
+[rank3]:                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/scratch/mt/new-structure/experiments/msaeed/masters/SCA/MNIST/test-lca2.py", line 146, in attack_test
+[rank3]:     target_outputs = target_model.first_part(data)
+[rank3]:                      ^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/m.saeed/miniconda3/envs/sca/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1940, in __getattr__
+[rank3]:     raise AttributeError(
+[rank3]: AttributeError: 'DistributedDataParallel' object has no attribute 'first_part'
+[rank0]:[W628 06:14:52.335538761 ProcessGroupNCCL.cpp:1479] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+W0628 06:14:55.168000 2669762 site-packages/torch/distributed/elastic/multiprocessing/api.py:900] Sending process 2669768 closing signal SIGTERM
+E0628 06:14:55.299000 2669762 site-packages/torch/distributed/elastic/multiprocessing/api.py:874] failed (exitcode: 1) local_rank: 0 (pid: 2669766) of binary: /home/m.saeed/miniconda3/envs/sca/bin/python3.12
+Traceback (most recent call last):
+  File "/home/m.saeed/miniconda3/envs/sca/bin/torchrun", line 8, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/m.saeed/miniconda3/envs/sca/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/m.saeed/miniconda3/envs/sca/lib/python3.12/site-packages/torch/distributed/run.py", line 892, in main
+    run(args)
+  File "/home/m.saeed/miniconda3/envs/sca/lib/python3.12/site-packages/torch/distributed/run.py", line 883, in run
+    elastic_launch(
+  File "/home/m.saeed/miniconda3/envs/sca/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/m.saeed/miniconda3/envs/sca/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+MNIST/test-lca2.py FAILED
+------------------------------------------------------------
+Failures:
+[1]:
+  time      : 2025-06-28_06:14:55
+  host      : gpunode01.imhotep.aic.gov.eg
+  rank      : 1 (local_rank: 1)
+  exitcode  : 1 (pid: 2669767)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+[2]:
+  time      : 2025-06-28_06:14:55
+  host      : gpunode01.imhotep.aic.gov.eg
+  rank      : 3 (local_rank: 3)
+  exitcode  : 1 (pid: 2669769)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2025-06-28_06:14:55
+  host      : gpunode01.imhotep.aic.gov.eg
+  rank      : 0 (local_rank: 0)
+  exitcode  : 1 (pid: 2669766)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================

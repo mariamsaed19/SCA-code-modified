@@ -42,9 +42,9 @@ num_workers=0
 
 ## Fetch data from Google Drive 
 # Root directory for the dataset
-data_root = '/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/celeba/data'
+data_root = './data/celeba'
 # Path to folder with the dataset
-dataset_folder = f'{data_root}/img_align_celeba/img_align_celeba'
+dataset_folder = f'{data_root}/img_align_celeba/'
 
 
 class FaceCelebADataset(Dataset):
@@ -101,7 +101,7 @@ transform__op=torchvision.transforms.Compose([
                           std=[0.5, 0.5, 0.5])
                               ])
 
-face_dataset = FaceCelebADataset(csv_file='/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/celeba/data/list_attr_celeba.csv',
+face_dataset = FaceCelebADataset(csv_file='./data/celeba/list_attr_celeba.csv',
                                     root_dir=dataset_folder, transform=transform__op)
 #face_dataset = FaceLandmarksDataset(csv_file='/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/celeba/data/list_landmarks_align_celeba.csv',
 #                                    root_dir=dataset_folder, transform=transform__op)
@@ -116,67 +116,6 @@ test_loader = DataLoader(test_set, batch_size=batch_size_test, shuffle=True)
   
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")  # use gpu if available
 #152624
-'''
-## Create a custom Dataset class
-class CelebADataset(Dataset):
-  def __init__(self, root_dir, transform=None):
-    """
-    Args:
-      root_dir (string): Directory with all the images
-      transform (callable, optional): transform to be applied to each image sample
-    """
-    # Read names of images in the root directory
-    image_names = os.listdir(root_dir)
-
-    self.root_dir = root_dir
-    self.transform = transform 
-    self.image_names = natsorted(image_names)
-
-    def __len__(self): 
-        #len(self.annotations)
-        return len(self.image_names)
-
-    def __getitem__(self, idx):
-        # Get the path to the image 
-        img_path = os.path.join(self.root_dir, self.image_names[idx])
-        # Load image and convert it to RGB
-        img = Image.open(img_path).convert('RGB')
-        # Apply transformations to the image
-        if self.transform:
-            img = self.transform(img)
-
-        return img
-    ## Load the dataset 
-# Path to directory with all the images
-img_folder = f'{dataset_folder}/img_align_celeba'
-# Spatial size of training images, images are resized to this size.
-image_size = 32
-# Transformations to be applied to each individual image sample
-transform=transforms.Compose([
-    transforms.Resize(image_size),
-    transforms.CenterCrop(image_size),
-    transforms.ToTensor(),
-    transforms.Normalize(mean=[0.5, 0.5, 0.5],
-                          std=[0.5, 0.5, 0.5])
-])
-# Load the dataset from file and apply transformations
-celeba_dataset = CelebADataset(img_folder, transform)
-print(celeba_dataset)
-## Create a dataloader 
-# Batch size during training
-batch_size = 128
-# Number of workers for the dataloader
-num_workers = 0 if device.type == 'cuda' else 2
-# Whether to put fetched data tensors to pinned memory
-
-pin_memory = True if device.type == 'cuda' else False
-
-celeba_dataloader = torch.utils.data.DataLoader(celeba_dataset,
-                                                batch_size=batch_size,
-                                                num_workers=num_workers,
-                                                pin_memory=pin_memory,
-                                                )
-                                                '''
 
 print("Working Fine")
 size1 = len(train_loader)
@@ -519,9 +458,9 @@ def attack_test(train_loader, target_model, attack_model):
 
 target_epochs=25
 loss_train_tr, loss_test_tr=[],[]
+print("+++++++++Target Training Starting+++++++++")
 for t in tqdm(range(target_epochs)):
-    print(f'Epoch {t+1}\n-------------------------------')
-    print("+++++++++Target Training Starting+++++++++")
+    # print(f'Epoch {t+1}\n-------------------------------')
     tr_loss, result_train=target_train(train_loader, target_model, optimiser)
     loss_train_tr.append(tr_loss)
 
@@ -531,13 +470,15 @@ final_acc=target_utility(test_loader, target_model, batch_size=1)
 attack_epochs=50
 
 loss_train, loss_test=[],[]
+print("+++++++++Training Starting+++++++++")
 for t in tqdm(range(attack_epochs)):
-    print(f'Epoch {t+1}\n-------------------------------')
-    print("+++++++++Training Starting+++++++++")
+    # print(f'Epoch {t+1}\n-------------------------------')
     tr_loss=attack_train(test_loader, target_model, attack_model, optimiser)
     loss_train.append(tr_loss)
 
 print("**********Test Starting************")
+torch.save(attack_model, './result-celeba/CelebA_lca2_epoch_CNN_cnn_attack.pt')
+torch.save(target_model, './result-celeba/CelebA_lca2_epoch_CNN_cnn_target.pt')
 psnr_lst, ssim_lst, fid_lst=attack_test(train_loader, target_model, attack_model)
 def Average(lst):
     return sum(lst) / len(lst)
@@ -550,10 +491,8 @@ average_ssim = Average(ssim_lst)
 average_incep = Average(fid_lst)
 print('Mean scoers are>> PSNR, SSIM, FID: ', average_psnr, average_ssim, average_incep)
 
-#torch.save(attack_model, '/vast/home/sdibbo/def_ddlc/model_attack/CIFAR10_20_epoch_CNN_cnn_attack.pt')
-#torch.save(target_model, '/vast/home/sdibbo/def_ddlc/model_target/CIFAR10_20_epoch_CNN_cnn_target.pt')
 
 df = pd.DataFrame(list(zip(*[psnr_lst,  ssim_lst, fid_lst]))).add_prefix('Col')
 
-#df.to_csv('/vast/home/sdibbo/def_ddlc/result/CIFAR10_20_epoch_CNN_attack_cnn.csv', index=False)
+df.to_csv('./result-celeba/CelebA_lca2_epoch_CNN_attack_cnn.csv', index=False)
 

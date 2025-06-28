@@ -15,11 +15,13 @@ device = torch.device('cuda:0' if (
 
 ## Fetch data from Google Drive 
 # Root directory for the dataset
-data_root = '/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/data/celeba'
+data_root = '/scratch/mt/new-structure/experiments/msaeed/masters/SCA/data/celeba'
 # Path to folder with the dataset
 dataset_folder = f'{data_root}/img_align_celeba'
 # URL for the CelebA dataset
-url = 'https://drive.google.com/drive/folders/0B7EVK8r0v71pTUZsaXdaSnZBZzg?resourcekey=0-rJlzl934LzC-Xp28GeIBzQ'
+# https://drive.google.com/file/d/1xNjS7VraN_ZpOILgg3oKY9iOsfJpnwKS/view?usp=sharing
+url = 'https://drive.google.com/drive/folders/0B7EVK8r0v71pZjFTYXZWM3FlRnM?resourcekey=0-dYn9z10tMJOBAkviAcfdyQ'
+# https://drive.google.com/file/d/0B7EVK8r0v71pZjFTYXZWM3FlRnM/view?usp=sharing&resourcekey=0-dYn9z10tMJOBAkviAcfdyQ
 # Path to download the dataset to
 download_path = f'{data_root}/img_align_celeba.zip'
 
@@ -28,8 +30,8 @@ if not os.path.exists(data_root):
   os.makedirs(data_root)
   os.makedirs(dataset_folder)
 
-# Download the dataset from google drive
-gdown.download(url, download_path, quiet=False)
+# # Download the dataset from google drive
+# gdown.download(url,download_path, quiet=False,fuzzy=True)
 
 # Unzip the downloaded file 
 with zipfile.ZipFile(download_path, 'r') as ziphandler:

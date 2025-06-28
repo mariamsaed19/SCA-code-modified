@@ -24,7 +24,7 @@ batch_size_test = 1
 
 
 train_loader = torch.utils.data.DataLoader(
-  torchvision.datasets.MNIST('/vast/home/sdibbo/def_ddlc/data', train=True, download=True,
+  torchvision.datasets.MNIST('./data', train=True, download=True,
                              transform=torchvision.transforms.Compose([
                                torchvision.transforms.ToTensor(),
                                torchvision.transforms.Normalize(
@@ -33,23 +33,14 @@ train_loader = torch.utils.data.DataLoader(
   batch_size=batch_size_train, shuffle=True)
 
 test_loader = torch.utils.data.DataLoader(
-  torchvision.datasets.MNIST('/vast/home/sdibbo/def_ddlc/data', train=False, download=True,
+  torchvision.datasets.MNIST('./data', train=False, download=True,
                              transform=torchvision.transforms.Compose([
                                torchvision.transforms.ToTensor(),
                                torchvision.transforms.Normalize(
                                  (0.1307,), (0.3081,))
                              ])),
   batch_size=batch_size_test, shuffle=True)
-'''
-attack_loader = torch.utils.data.DataLoader(
-  torchvision.datasets.CIFAR10('/vast/home/sdibbo/def_ddlc/data', train=True, download=True,
-                             transform=torchvision.transforms.Compose([
-                               torchvision.transforms.ToTensor(),
-                               torchvision.transforms.Normalize(
-                                 (0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
-                             ])),
-  batch_size=batch_size_attack, shuffle=True)
-'''  
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")  # use gpu if available
 
 class SplitNN(nn.Module):
@@ -353,8 +344,8 @@ def attack_test(train_loader, target_model, attack_model):
 target_epochs=25
 loss_train_tr, loss_test_tr=[],[]
 for t in tqdm(range(target_epochs)):
-    print(f'Epoch {t+1}\n-------------------------------')
-    print("+++++++++Target Training Starting+++++++++")
+    # print(f'Epoch {t+1}\n-------------------------------')
+    # print("+++++++++Target Training Starting+++++++++")
     tr_loss, result_train=target_train(train_loader, target_model, optimiser)
     loss_train_tr.append(tr_loss)
 
@@ -365,8 +356,8 @@ attack_epochs=50
 
 loss_train, loss_test=[],[]
 for t in tqdm(range(attack_epochs)):
-    print(f'Epoch {t+1}\n-------------------------------')
-    print("+++++++++Training Starting+++++++++")
+    # print(f'Epoch {t+1}\n-------------------------------')
+    # print("+++++++++Training Starting+++++++++")
     tr_loss=attack_train(test_loader, target_model, attack_model, optimiser)
     loss_train.append(tr_loss)
 
@@ -382,9 +373,9 @@ average_ssim = Average(ssim_lst)
 average_incep = Average(fid_lst)
 print('Mean scoers are>> PSNR, SSIM, FID: ', average_psnr, average_ssim, average_incep)
 
-torch.save(attack_model, '/vast/home/sdibbo/def_ddlc/model_attack/etn/MNIST_20_epoch_CNN_linear_attack.pt')
-torch.save(target_model, '/vast/home/sdibbo/def_ddlc/model_target/etn/MNIST_20_epoch_CNN_linear_target.pt')
+torch.save(attack_model, './result/etn/MNIST_20_epoch_CNN_linear_attack.pt')
+torch.save(target_model, './result/etn/MNIST_20_epoch_CNN_linear_target.pt')
 
 df = pd.DataFrame(list(zip(*[psnr_lst,  ssim_lst, fid_lst]))).add_prefix('Col')
 
-df.to_csv('/vast/home/sdibbo/def_ddlc/result/etn/MNIST_20_epoch_CNN_attack_linear.csv', index=False)
+df.to_csv('./result/etn/MNIST_20_epoch_CNN_attack_linear.csv', index=False)

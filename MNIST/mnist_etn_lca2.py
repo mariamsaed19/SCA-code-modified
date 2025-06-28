@@ -24,7 +24,7 @@ batch_size_test = 16
 
 
 train_loader = torch.utils.data.DataLoader(
-  torchvision.datasets.MNIST('/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/data', train=True, download=True,
+  torchvision.datasets.MNIST('./data', train=True, download=True,
                              transform=torchvision.transforms.Compose([
                                torchvision.transforms.ToTensor(),
                                torchvision.transforms.Normalize(
@@ -33,7 +33,7 @@ train_loader = torch.utils.data.DataLoader(
   batch_size=batch_size_train, shuffle=True)
 
 test_loader = torch.utils.data.DataLoader(
-  torchvision.datasets.MNIST('/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/data', train=False, download=True,
+  torchvision.datasets.MNIST('./data', train=False, download=True,
                              transform=torchvision.transforms.Compose([
                                torchvision.transforms.ToTensor(),
                                torchvision.transforms.Normalize(
@@ -50,14 +50,16 @@ class SplitNN(nn.Module):
        LCAConv2D(out_neurons=16,
                 in_neurons=1,                        
                 kernel_size=5,              
-                stride=1,                   
+                stride=1,
+                tau=1000, #NOTE: added                      
                  lambda_=0.5, lca_iters=500, pad="same",                 
             ),  
             nn.BatchNorm2d(16),                           
             LCAConv2D(out_neurons=28,
                 in_neurons=16,                        
                 kernel_size=5,              
-                stride=1,                   
+                stride=1,
+                tau=1000, #NOTE: added                   
                  lambda_=0.5, lca_iters=500, pad="same", ),  
                  nn.BatchNorm2d(28),  
                           nn.Linear(28, 500),
@@ -282,7 +284,7 @@ def attack_test(train_loader, target_model, attack_model):
         #print(recon_img.shape)
         
         plt.draw()
-        plt.savefig(f'/vast/home/sdibbo/def_ddlc/plot/MNIST/cnn/org_img{batch}.jpg', dpi=100, bbox_inches='tight')
+        plt.savefig(f'.//plot/MNIST/cnn/org_img{batch}.jpg', dpi=100, bbox_inches='tight')
         '''
         plt.imshow(recreated_data[0][0].cpu().detach().numpy(), cmap='gray')
         
@@ -290,7 +292,7 @@ def attack_test(train_loader, target_model, attack_model):
         plt.yticks([])
         #plt.imshow(mfcc_spectrogram[0][0,:,:].numpy(), cmap='viridis')
         plt.draw()
-        plt.savefig(f'/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/plot/guard0/recon_img{batch}.jpg', dpi=100, bbox_inches='tight')
+        plt.savefig(f'./result/etn/plot/recon_lca2_again_img{batch}.jpg', dpi=100, bbox_inches='tight')
         
         psnr_lst.append(psnr_val)
         ssim_lst.append(ssim_val)
@@ -304,8 +306,8 @@ def attack_test(train_loader, target_model, attack_model):
 target_epochs=25
 loss_train_tr, loss_test_tr=[],[]
 for t in tqdm(range(target_epochs)):
-    print(f'Epoch {t+1}\n-------------------------------')
-    print("+++++++++Target Training Starting+++++++++")
+    # print(f'Epoch {t+1}\n-------------------------------')
+    # print("+++++++++Target Training Starting+++++++++")
     tr_loss, result_train=target_train(train_loader, target_model, optimiser)
     loss_train_tr.append(tr_loss)
 
@@ -316,12 +318,14 @@ attack_epochs=50
 
 loss_train, loss_test=[],[]
 for t in tqdm(range(attack_epochs)):
-    print(f'Epoch {t+1}\n-------------------------------')
-    print("+++++++++Training Starting+++++++++")
+    # print(f'Epoch {t+1}\n-------------------------------')
+    # print("+++++++++Training Starting+++++++++")
     tr_loss=attack_train(test_loader, target_model, attack_model, optimiser)
     loss_train.append(tr_loss)
 
 print("**********Test Starting************")
+torch.save(attack_model, './result/etn/MNIST_50_epoch_CNN_lca2_again_attack.pt')
+torch.save(target_model, './result/etn/MNIST_25_epoch_CNN_lca2_again_target.pt')
 psnr_lst, ssim_lst, fid_lst=attack_test(train_loader, target_model, attack_model)
 
 
@@ -332,9 +336,7 @@ average_ssim = Average(ssim_lst)
 average_incep = Average(fid_lst)
 print('Mean scoers are>> PSNR, SSIM, FID: ', average_psnr, average_ssim, average_incep)
 
-#torch.save(attack_model, '/vast/home/sdibbo/def_ddlc/model_attack/etn/MNIST_20_epoch_CNN_lca_attack.pt')
-#torch.save(target_model, '/vast/home/sdibbo/def_ddlc/model_target/etn/MNIST_20_epoch_CNN_lca_target.pt')
 
 df = pd.DataFrame(list(zip(*[psnr_lst,  ssim_lst, fid_lst]))).add_prefix('Col')
 
-#df.to_csv('/vast/home/sdibbo/def_ddlc/result/etn/MNIST_20_epoch_CNN_attack_lca.csv', index=False)
+df.to_csv('./result/etn/MNIST_20_epoch_CNN_attack_lca2_again.csv', index=False)

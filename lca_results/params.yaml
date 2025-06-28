@@ -1,0 +1,24 @@
+d_update_clip: .inf
+eta: 0.01
+in_neurons: 16
+input_unit_var: true
+input_zero_mean: true
+kernel_size: 5
+lambda_: 0.5
+lca_iters: 500
+metric_fpath: /scratch/mt/new-structure/experiments/msaeed/masters/SCA/lca_results/metrics.xz
+no_time_pad: true
+nonneg: true
+out_neurons: 28
+pad: same
+req_grad: false
+result_dir: /scratch/mt/new-structure/experiments/msaeed/masters/SCA/lca_results
+return_all_ts: false
+return_vars:
+- acts
+stride: 1
+tau: 1000
+track_metrics: false
+transfer_func: soft_threshold
+weight_init: trunc_normal_
+weight_init_kwargs: {}
