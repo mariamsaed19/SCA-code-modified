@@ -24,7 +24,7 @@ REQUIRED_MINOR = 7
 REQUIRED_MICRO = 5
 
 version = {}
-with open("opacus/version.py") as fp:
+with open("Opacus-Dp-SGD/opacus/version.py") as fp:
     exec(fp.read(), version)
 
 __version__ = version["__version__"]
@@ -50,11 +50,11 @@ src_dir = os.path.abspath(os.path.dirname(__file__))
 with open("README.md", "r", encoding="utf8") as fh:
     long_description = fh.read()
 
-requirements_txt = os.path.join(src_dir, "requirements.txt")
-with open("requirements.txt", encoding="utf8") as f:
-    required = f.read().splitlines()
+# requirements_txt = os.path.join(src_dir, "requirements.txt")
+# with open("requirements.txt", encoding="utf8") as f:
+#     required = f.read().splitlines()
 
-with open("dev_requirements.txt", encoding="utf8") as f:
+with open("Opacus-Dp-SGD/dev_requirements.txt", encoding="utf8") as f:
     dev_required = f.read().splitlines()
 
 setup(

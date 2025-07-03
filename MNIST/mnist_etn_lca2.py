@@ -286,13 +286,13 @@ def attack_test(train_loader, target_model, attack_model):
         plt.draw()
         plt.savefig(f'.//plot/MNIST/cnn/org_img{batch}.jpg', dpi=100, bbox_inches='tight')
         '''
-        plt.imshow(recreated_data[0][0].cpu().detach().numpy(), cmap='gray')
+        # plt.imshow(recreated_data[0][0].cpu().detach().numpy(), cmap='gray')
         
-        plt.xticks([])
-        plt.yticks([])
-        #plt.imshow(mfcc_spectrogram[0][0,:,:].numpy(), cmap='viridis')
-        plt.draw()
-        plt.savefig(f'./result/etn/plot/recon_lca2_again_img{batch}.jpg', dpi=100, bbox_inches='tight')
+        # plt.xticks([])
+        # plt.yticks([])
+        # #plt.imshow(mfcc_spectrogram[0][0,:,:].numpy(), cmap='viridis')
+        # plt.draw()
+        # plt.savefig(f'./result/etn/plot/recon_lca2_again_img{batch}.jpg', dpi=100, bbox_inches='tight')
         
         psnr_lst.append(psnr_val)
         ssim_lst.append(ssim_val)
@@ -324,8 +324,8 @@ for t in tqdm(range(attack_epochs)):
     loss_train.append(tr_loss)
 
 print("**********Test Starting************")
-torch.save(attack_model, './result/etn/MNIST_50_epoch_CNN_lca2_again_attack.pt')
-torch.save(target_model, './result/etn/MNIST_25_epoch_CNN_lca2_again_target.pt')
+torch.save(attack_model, './result/etn/MNIST_50_epoch_CNN_lca2_attack.pt')
+torch.save(target_model, './result/etn/MNIST_25_epoch_CNN_lca2_target.pt')
 psnr_lst, ssim_lst, fid_lst=attack_test(train_loader, target_model, attack_model)
 
 
@@ -339,4 +339,4 @@ print('Mean scoers are>> PSNR, SSIM, FID: ', average_psnr, average_ssim, average
 
 df = pd.DataFrame(list(zip(*[psnr_lst,  ssim_lst, fid_lst]))).add_prefix('Col')
 
-df.to_csv('./result/etn/MNIST_20_epoch_CNN_attack_lca2_again.csv', index=False)
+df.to_csv('./result/etn/MNIST_20_epoch_CNN_attack_lca2.csv', index=False)

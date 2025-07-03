@@ -12,4 +12,4 @@ conda activate /home/m.saeed/miniconda3/envs/sca
 
 
 echo "########### lca2"
-python3 CelebA/celeba_etn_lca2.py 2> >(tee logs/celeba-lca2-error.log >&2) | tee logs/celeba-lca2-output.log
+python3 CelebA/celeba_etn_lca2.py 2>&1 | tee logs/celeba-lca2-output.log
