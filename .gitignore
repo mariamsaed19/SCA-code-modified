@@ -1,3 +1,9 @@
 result/
 result-celeba/
+result-cifar/
 data/
+logs/
+logs-final/
+result-final/
+cluster-logs/
+cluster-logs-final/

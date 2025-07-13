@@ -29,11 +29,22 @@ from torch.utils.data import Dataset, DataLoader
 import torchvision.transforms as transforms
 from skimage import io
 from lcapt.lca import LCAConv2D
+import sys
+sys.path.append("/scratch/mt/new-structure/experiments/msaeed/masters/SCA")
+import resnet_models as resnet
+import os
 
+save_dir = "./result/celeba-cnn/lca2/"
+save_dir_imgs = "./result/celeba-cnn/lca2/images"
+exp_name = "celeba-cnn_lca2"
+os.makedirs(save_dir,exist_ok=True)
+os.makedirs(save_dir+"/attack",exist_ok=True)
+os.makedirs(save_dir+"/target",exist_ok=True)
+os.makedirs(save_dir_imgs,exist_ok=True)
 ## Setup
 # Number of gpus available
 ngpu = 1
-device = torch.device('cuda:0' if (
+device = torch.device('cuda' if (
     torch.cuda.is_available() and ngpu > 0) else 'cpu')
 batch_size = 32
 batch_size_train = 8
@@ -130,8 +141,9 @@ class SplitNN(nn.Module):
      LCAConv2D(out_neurons=16,
                 in_neurons=3,                        
                 kernel_size=5,              
-                stride=1,                   
-                 lambda_=1.5, lca_iters=500, pad="same",               
+                stride=1,  
+                tau=1000,                  
+                 lambda_=0.5, lca_iters=500, pad="same",               
             ),                               
             nn.ReLU(), 
             nn.Dropout(.09), 
@@ -140,8 +152,9 @@ class SplitNN(nn.Module):
     LCAConv2D(out_neurons=32,
                 in_neurons=16,                        
                 kernel_size=5,              
-                stride=1,                   
-                 lambda_=1.5, lca_iters=500, pad="same", ),    
+                stride=1,     
+                tau=1000,               
+                 lambda_=0.5, lca_iters=500, pad="same", ),    
                                          nn.ReLU(), 
             nn.Dropout(.09), 
             nn.MaxPool2d(2, 2),
@@ -190,8 +203,10 @@ class SplitNN(nn.Module):
     return x
 
 
-
 target_model = SplitNN().to(device=device, dtype=torch.float16)
+# target_model = VGG16WithSCLFirst().to(device=device, dtype=torch.float16)
+# target_model = ResNet152().to(device=device, dtype=torch.float16)
+print(target_model)
 class Attacker(nn.Module):
   def __init__(self):
     super(Attacker, self).__init__()
@@ -214,7 +229,8 @@ class Attacker(nn.Module):
     return self.layers(x)
   
 attack_model = Attacker().to(device=device, dtype=torch.float16)
-optimiser=torch.optim.SGD(target_model.parameters(),lr=0.001,momentum=0.9)
+optimiser_target=torch.optim.SGD(target_model.parameters(),lr=0.001,momentum=0.9)
+optimiser_attack=torch.optim.SGD(attack_model.parameters(),lr=0.001,momentum=0.9)
 cost = torch.nn.CrossEntropyLoss()
 
 # calculate frechet inception distance
@@ -234,7 +250,7 @@ def calculate_fid(act1, act2):
  return fid
 
 
-def target_train(train_loader, target_model, optimiser):
+def target_train(train_loader, target_model, optimiser,epoch):
     target_model.train()
     size = len(train_loader.dataset)
     correct = 0
@@ -254,7 +270,13 @@ def target_train(train_loader, target_model, optimiser):
         total_loss.append(loss.item())
         #batch_count+=batch
         #correct += (pred.argmax(1)==Y).type(torch.float).sum().item()
-
+    checkpoint = {
+        'epoch': epoch,
+        'model_state_dict': target_model.state_dict(),
+        'optimizer_state_dict': optimiser.state_dict(),
+        'loss': loss
+    }
+    torch.save(checkpoint, f'{save_dir}/target/{exp_name}_target_{epoch}.pt')
     correct /= size
     loss= sum(total_loss)/batch
     result_train=100*correct
@@ -263,19 +285,16 @@ def target_train(train_loader, target_model, optimiser):
     return loss, result_train
 
 #test_loader, target_model, attack_model, optimiser
-def attack_train(test_loader, target_model, attack_model, optimiser):
+def attack_train(test_loader, target_model, attack_model, optimiser,epoch):
 #for data, targets in enumerate(tqdm(train_loader)):
     for batch, (data, targets) in enumerate(tqdm(test_loader)):
     # Reset gradients
         data, targets = data.to(device=device, dtype=torch.float16), targets.to(device=device)
         optimiser.zero_grad()
-        #index, data = data   
-        #print(data.shape)
-        #data=data.view(1000, 784)
-        #data=torch.transpose(data, 0, 1)
-        # First, get outputs from the target model
+
         target_outputs = target_model.first_part(data)
         target_outputs = target_model.second_part(target_outputs)
+        # target_outputs = target_model.downsample(target_outputs)
         #print(data.shape)
         #print(target_outputs.shape)
         target_outputs = target_outputs.view(1, 2*data.shape[0], 2, 16*16)
@@ -287,29 +306,24 @@ def attack_train(test_loader, target_model, attack_model, optimiser):
         #print(attack_outputs.shape)
         attack_outputs = attack_outputs.repeat(data.shape[0], 1, data.shape[0], 1)
         #print(attack_outputs.shape)
-        '''
-        #print(data.shape)
-        data= torch.mean(data, -1)
-        data=torch.permute(data, (1,0, 2))
-        data = data[None,:, :,  :]
-        '''
-        #print(data.shape)
-        #print(target_outputs.shape)
-       # print(attack_outputs.shape)
-        #attack_outputs= torch.permute(attack_outputs, (0,3,1,2))
 
-        # We want attack outputs to resemble the original data
         loss = ((data - attack_outputs)**2).mean()
 
         # Update the attack model
         loss.backward()
         optimiser.step()
-
+    checkpoint = {
+        'epoch': epoch,
+        'model_state_dict': attack_model.state_dict(),
+        'optimizer_state_dict': optimiser.state_dict(),
+        'loss': loss
+    }
+    torch.save(checkpoint, f'{save_dir}/attack/{exp_name}_attack_{epoch}.pt')
     return loss
 
 def target_utility(test_loader, target_model, batch_size=1):
     size = len(test_loader.dataset)
-    #target_model.eval()
+    target_model.eval()
     test_loss, correct = 0, 0
     correct = 0
     total=0
@@ -342,6 +356,8 @@ def target_utility(test_loader, target_model, batch_size=1):
 
 
 def attack_test(train_loader, target_model, attack_model):
+    attack_model.eval()
+
     psnr_lst, ssim_lst, fid_lst=[], [], []
     attack_correct=0
     total=0
@@ -350,29 +366,20 @@ def attack_test(train_loader, target_model, attack_model):
         data, targets = data.to(device=device, dtype=torch.float16), targets.to(device=device)
         target_outputs = target_model.first_part(data)
         target_outputs = target_model.second_part(target_outputs)
+        # target_outputs = target_model.downsample(target_outputs)
         if (data.shape[0]!=32):
            #data=data.repeat(2, 1, 1, 1)
            target_outputs = target_outputs.view(1,data.shape[0], 4, 16*16)
            target_outputs = target_outputs.repeat(1,2, 1, 1)
         else:
             target_outputs = target_outputs.view(1,data.shape[0], 4, 16*16)
-        #print(data.shape)
-        #print(target_outputs.shape)
-        print(target_outputs.shape)
-        #target_outputs = target_outputs.view(1, 32, target_outputs.shape[0], 16*16)
-        #target_outputs=target_outputs[None, None, :]
+
         if(target_outputs.shape[1]!=32):
             target_outputs = target_outputs.repeat(1,2, 1, 1)
         recreated_data = attack_model(target_outputs)
         #print(recreated_data.shape)
         recreated_data = recreated_data.repeat(data.shape[0], 1,8, 1)
-        #recreated_data= torch.permute(recreated_data, (0,3,1,2))
-        #print(recreated_data.shape)
-        '''
-        data= torch.mean(data, -1)
-        data=torch.permute(data, (1,0, 2))
-        data = data[None,:, :,  :]
-        '''
+
         psnr = PeakSignalNoiseRatio().to(device)
         psnr_val=abs(psnr(data, recreated_data).item())
         if (psnr_val=='-inf'):
@@ -384,20 +391,7 @@ def attack_test(train_loader, target_model, attack_model):
         ssim_val=abs(ssim(data, recreated_data).item())
         print("SSIM is:", ssim_val)
 
-        #LEARNED PERCEPTUAL IMAGE PATCH SIMILARITY (LPIPS)
-        #lpips = LearnedPerceptualImagePatchSimilarity(net_type='squeeze')
-        #lpips_val=lpips(data, recreated_data).item()
-        #print("LPIPS is:", lpips_val)
 
-        '''
-        fid = FrechetInceptionDistance(feature=768)
-        int_data=data.to(torch.uint8)
-        int_recon=recreated_data.to(torch.uint8)
-        fid.update(int_data, real=True)
-        fid.update(int_recon, real=False)
-        fid_val=fid.compute()
-        print("FID is:", fid_val)
-        '''
         ## Inception Score
         data_scaled=torch.mul(torch.div(torch.sub(data, torch.min(data)),torch.sub(torch.max(data),torch.min(data))), 255)
         int_data=data_scaled.to(torch.uint8)
@@ -411,42 +405,11 @@ def attack_test(train_loader, target_model, attack_model):
         if (recreated_data.shape[2]==16):
            recreated_data=recreated_data.repeat(1, 1, 2, 1)
         test_output = target_model(recreated_data)
-        #attack_pred = test_output.max(1, keepdim=True)[1] # get the index of the max log-probability
-        #print(f"Done with sample: {counter_a}\ton epsilon={epsilon}")
-
-        #if attack_pred.item() == targets.item():
-        #    attack_correct += 1      
-        #            plt.savefig(f'/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/celeba/plot/guard/org_img{batch}.jpg', dpi=100, bbox_inches='tight')  
+       
         _, pred = torch.max(test_output, -1)
         attack_correct += (pred == targets).sum().item()
         total += targets.size(0)
-        ### For Saving recon images, uncomment below code blocks
-        '''
-        if (psnr_val>15.00):
-        ### For Saving recon images, uncomment below code blocks
-        
-            DataI = (data[0] / 2 + 0.5).to(torch.float32)
-            img= torch.permute(DataI, (1,2, 0))
-            #print(img.shape)
-            plt.imshow((img.cpu().detach().numpy()))
-            plt.xticks([])
-            plt.yticks([])
-            
-            #plt.imshow(mfcc_spectrogram[0][0,:,:].numpy(), cmap='viridis')
-            DataR=(recreated_data[0]/2 + 0.5).to(torch.float32)
-            recon_img=torch.permute(DataR, (1,2, 0))
-            #recon_img=torch.max(img, recon_img)
-            recon_img=img-max(recon_img)[0].item()
-            #print(recon_img.shape)
-            plt.draw()
-            plt.savefig(f'/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/celeba/plot/test/org_img{batch}.jpg', dpi=100, bbox_inches='tight')
-            plt.imshow((recon_img.cpu().detach().numpy()))
-            plt.xticks([])
-            plt.yticks([])
-            #plt.imshow(mfcc_spectrogram[0][0,:,:].numpy(), cmap='viridis')
-            plt.draw()
-            plt.savefig(f'/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/celeba/plot/test/recon_img{batch}.jpg', dpi=100, bbox_inches='tight')
-        '''
+
         psnr_lst.append(psnr_val)
         ssim_lst.append(ssim_val)
         fid_lst.append(fid_val)
@@ -461,7 +424,7 @@ loss_train_tr, loss_test_tr=[],[]
 print("+++++++++Target Training Starting+++++++++")
 for t in tqdm(range(target_epochs)):
     # print(f'Epoch {t+1}\n-------------------------------')
-    tr_loss, result_train=target_train(train_loader, target_model, optimiser)
+    tr_loss, result_train=target_train(train_loader, target_model, optimiser_target,t)
     loss_train_tr.append(tr_loss)
 
 print("+++++++++Target Test+++++++++")
@@ -471,14 +434,15 @@ attack_epochs=50
 
 loss_train, loss_test=[],[]
 print("+++++++++Training Starting+++++++++")
+target_model.eval()
 for t in tqdm(range(attack_epochs)):
     # print(f'Epoch {t+1}\n-------------------------------')
-    tr_loss=attack_train(test_loader, target_model, attack_model, optimiser)
+    tr_loss=attack_train(test_loader, target_model, attack_model, optimiser_attack,t)
     loss_train.append(tr_loss)
 
 print("**********Test Starting************")
-torch.save(attack_model, './result-celeba/CelebA_lca2_epoch_CNN_cnn_attack.pt')
-torch.save(target_model, './result-celeba/CelebA_lca2_epoch_CNN_cnn_target.pt')
+torch.save(attack_model, f'{save_dir}/attack/{exp_name}_attack.pt')
+torch.save(target_model, f'{save_dir}/target/{exp_name}_target.pt')
 psnr_lst, ssim_lst, fid_lst=attack_test(train_loader, target_model, attack_model)
 def Average(lst):
     return sum(lst) / len(lst)
@@ -494,5 +458,5 @@ print('Mean scoers are>> PSNR, SSIM, FID: ', average_psnr, average_ssim, average
 
 df = pd.DataFrame(list(zip(*[psnr_lst,  ssim_lst, fid_lst]))).add_prefix('Col')
 
-df.to_csv('./result-celeba/CelebA_lca2_epoch_CNN_attack_cnn.csv', index=False)
+df.to_csv(f'{save_dir}/{exp_name}-result.csv', index=False)
 

@@ -16,14 +16,24 @@ from numpy import iscomplexobj
 from numpy.random import random
 from scipy.linalg import sqrtm
 
+import os 
 n_epochs = 3
 batch_size_train = 32
 batch_size_test = 16
 
+target_epochs=25
+attack_epochs=50
+save_dir = "./result/cifar-cnn/nod/"
+save_dir_imgs = "./result/cifar-cnn/nod/images"
+exp_name = "cifar-cnn_nod_linear"
+os.makedirs(save_dir,exist_ok=True)
+os.makedirs(save_dir+"/attack",exist_ok=True)
+os.makedirs(save_dir+"/target",exist_ok=True)
+os.makedirs(save_dir_imgs,exist_ok=True)
 
 
 train_loader = torch.utils.data.DataLoader(
-  torchvision.datasets.CIFAR10('/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/data', train=True, download=True,
+  torchvision.datasets.CIFAR10('./data', train=True, download=True,
                              transform=torchvision.transforms.Compose([
                                torchvision.transforms.ToTensor(),
                                torchvision.transforms.Normalize(
@@ -31,7 +41,7 @@ train_loader = torch.utils.data.DataLoader(
                              ])),
   batch_size=batch_size_train, shuffle=True)
 train_loader_aug = torch.utils.data.DataLoader(
-  torchvision.datasets.CIFAR10('/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/data', train=True, download=True,
+  torchvision.datasets.CIFAR10('./data', train=True, download=True,
                              transform=torchvision.transforms.Compose([
                                 #torchvision.transforms.RandomHorizontalFlip(p=1),
                                 #torchvision.transforms.RandomResizedCrop(32, (0.85, 1.0)),
@@ -45,7 +55,7 @@ train_loader_aug = torch.utils.data.DataLoader(
                              ])),
   batch_size=batch_size_train, shuffle=True)
 test_loader = torch.utils.data.DataLoader(
-  torchvision.datasets.CIFAR10('/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/data', train=False, download=True,
+  torchvision.datasets.CIFAR10('./data', train=False, download=True,
                              transform=torchvision.transforms.Compose([
                                torchvision.transforms.ToTensor(),
                                torchvision.transforms.Normalize(
@@ -54,40 +64,8 @@ test_loader = torch.utils.data.DataLoader(
   batch_size=batch_size_test, shuffle=True)
   
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")  # use gpu if available
-'''
-class SplitNN(nn.Module):
-  def __init__(self):
-    super(SplitNN, self).__init__()
-    self.first_part = nn.Sequential(
-       nn.Conv2d(
-                in_channels=3,              
-                out_channels=16,            
-                kernel_size=5,              
-                stride=1,                   
-                padding=2,                  
-            ),                              
-            nn.ReLU(),                      
-            nn.Conv2d(16, 32, 5, 1, 2),     
-            nn.ReLU(), 
-                           nn.Linear(32, 500),
-                           nn.ReLU(),
-                         )
-    self.second_part = nn.Sequential(
-                           nn.Linear(32*32*500, 500),
-                           nn.ReLU(),
-                           nn.Linear(500, 10),
-                           #scancel nn.Softmax(dim=-1),
-                         )
 
-  def forward(self, x):
-    x=self.first_part(x)
-    #print(x.shape)
-    #x = torch.flatten(x, 1) # flatten all dimensions except batch
-    x = x.view(-1, 32*32*500)
-    #print(x.shape)
-    x=self.second_part(x)
-    return x
-'''
+
 class SplitNN(nn.Module):
   def __init__(self):
     super(SplitNN, self).__init__()
@@ -153,6 +131,7 @@ class SplitNN(nn.Module):
 
 
 target_model = SplitNN().to(device=device)
+
 class Attacker(nn.Module):
   def __init__(self):
     super(Attacker, self).__init__()
@@ -175,7 +154,8 @@ class Attacker(nn.Module):
     return self.layers(x)
   
 attack_model = Attacker().to(device=device)
-optimiser=torch.optim.SGD(target_model.parameters(),lr=0.001,momentum=0.9)
+optimiser_target=torch.optim.SGD(target_model.parameters(),lr=0.001,momentum=0.9)
+optimiser_attack=torch.optim.SGD(attack_model.parameters(),lr=0.001,momentum=0.9)
 cost = torch.nn.CrossEntropyLoss()
 
 # calculate frechet inception distance
@@ -225,7 +205,6 @@ def target_train(train_loader_aug, target_model, optimiser):
 
 #test_loader, target_model, attack_model, optimiser
 def attack_train(test_loader, target_model, attack_model, optimiser):
-#for data, targets in enumerate(tqdm(train_loader)):
     for batch, (data, targets) in enumerate(tqdm(test_loader)):
     # Reset gradients
         data, targets = data.to(device=device), targets.to(device=device)
@@ -303,6 +282,7 @@ def target_utility(test_loader, target_model, batch_size=1):
 
 
 def attack_test(train_loader, target_model, attack_model):
+    attack_model.eval()
     psnr_lst, ssim_lst, fid_lst=[], [], []
     attack_correct=0
     total=0
@@ -403,27 +383,28 @@ def attack_test(train_loader, target_model, attack_model):
 
     return psnr_lst, ssim_lst, fid_lst
 
-target_epochs=25
 loss_train_tr, loss_test_tr=[],[]
+print("+++++++++Target Training Starting+++++++++")
 for t in tqdm(range(target_epochs)):
-    print(f'Epoch {t+1}\n-------------------------------')
-    print("+++++++++Target Training Starting+++++++++")
-    tr_loss, result_train=target_train(train_loader_aug, target_model, optimiser)
+    # print(f'Epoch {t+1}\n-------------------------------')
+    tr_loss, result_train=target_train(train_loader_aug, target_model, optimiser_target)
     loss_train_tr.append(tr_loss)
 
 print("+++++++++Target Test+++++++++")
 
 final_acc=target_utility(test_loader, target_model, batch_size=1)
-attack_epochs=50
 
 loss_train, loss_test=[],[]
+print("+++++++++Training Starting+++++++++")
+target_model.eval()
 for t in tqdm(range(attack_epochs)):
-    print(f'Epoch {t+1}\n-------------------------------')
-    print("+++++++++Training Starting+++++++++")
-    tr_loss=attack_train(test_loader, target_model, attack_model, optimiser)
+    # print(f'Epoch {t+1}\n-------------------------------')
+    tr_loss=attack_train(test_loader, target_model, attack_model, optimiser_attack)
     loss_train.append(tr_loss)
 
 print("**********Test Starting************")
+torch.save(attack_model, f'{save_dir}/attack/{exp_name}_attack.pt')
+torch.save(target_model, f'{save_dir}/target/{exp_name}_target.pt')
 psnr_lst, ssim_lst, fid_lst=attack_test(train_loader, target_model, attack_model)
 def Average(lst):
     return sum(lst) / len(lst)
@@ -436,9 +417,7 @@ average_ssim = Average(ssim_lst)
 average_incep = Average(fid_lst)
 print('Mean scoers are>> PSNR, SSIM, FID: ', average_psnr, average_ssim, average_incep)
 
-#torch.save(attack_model, '/vast/home/sdibbo/def_ddlc/model_attack/CIFAR10_20_epoch_CNN_cnn_attack.pt')
-#torch.save(target_model, '/vast/home/sdibbo/def_ddlc/model_target/CIFAR10_20_epoch_CNN_cnn_target.pt')
 
 df = pd.DataFrame(list(zip(*[psnr_lst,  ssim_lst, fid_lst]))).add_prefix('Col')
 
-#df.to_csv('/vast/home/sdibbo/def_ddlc/result/CIFAR10_20_epoch_CNN_attack_cnn.csv', index=False)
+df.to_csv(f'{save_dir}/{exp_name}-result.csv', index=False)

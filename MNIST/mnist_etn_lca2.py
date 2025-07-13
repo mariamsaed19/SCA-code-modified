@@ -16,12 +16,21 @@ from numpy import iscomplexobj
 from numpy.random import random
 from scipy.linalg import sqrtm
 from lcapt.lca import LCAConv2D
-
+import os
 
 n_epochs = 3
 batch_size_train = 32
 batch_size_test = 16
 
+target_epochs=25
+attack_epochs=50
+save_dir = "./result/mnist/lca2/"
+save_dir_imgs = "./result/mnist/lca2/images"
+exp_name = "MNIST_lca2_linear"
+os.makedirs(save_dir,exist_ok=True)
+os.makedirs(save_dir+"/attack",exist_ok=True)
+os.makedirs(save_dir+"/target",exist_ok=True)
+os.makedirs(save_dir_imgs,exist_ok=True)
 
 train_loader = torch.utils.data.DataLoader(
   torchvision.datasets.MNIST('./data', train=True, download=True,
@@ -74,14 +83,10 @@ class SplitNN(nn.Module):
                            nn.Linear(28, 500),                        )
     self.third_part = nn.Sequential(
                            nn.Linear(28*28*500, 10),
-                           #scancel nn.Softmax(dim=-1),
                          )
 
   def forward(self, x):
     x=self.first_part(x)
-    #print(x.shape)
-    #x = torch.flatten(x, 1) # flatten all dimensions except batch
-    #print(x.shape)
     x=self.second_part(x)
     x = x.view(-1, 28*28*500)
     x=self.third_part(x)
@@ -110,7 +115,8 @@ class Attacker(nn.Module):
     return self.layers(x)
   
 attack_model = Attacker().to(device=device, dtype=torch.float16)
-optimiser = torch.optim.SGD(target_model.parameters(), lr=0.001, weight_decay = 0.001, momentum = 0.9) 
+optimiser_target = torch.optim.SGD(target_model.parameters(), lr=0.001, weight_decay = 0.001, momentum = 0.9) 
+optimiser_attack = torch.optim.SGD(attack_model.parameters(), lr=0.001, weight_decay = 0.001, momentum = 0.9) 
 cost = torch.nn.CrossEntropyLoss()
 
 # calculate frechet inception distance
@@ -143,15 +149,12 @@ def target_train(train_loader, target_model, optimiser):
         X, Y = X.to(device=device,  dtype=torch.float16), Y.to(device)
         target_model.zero_grad()
         pred = target_model(X)
-        #print(pred.shape, Y.shape)
         loss = cost(pred, Y)
         loss.backward()
         optimiser.step()
         _, output = torch.max(pred, 1)
         correct+= (output == Y).sum().item()
         total_loss.append(loss.item())
-        #batch_count+=batch
-        #correct += (pred.argmax(1)==Y).type(torch.float).sum().item()
 
     correct /= size
     loss= sum(total_loss)/batch
@@ -162,20 +165,12 @@ def target_train(train_loader, target_model, optimiser):
 
 
 
-#test_loader, target_model, attack_model, optimiser
 def attack_train(test_loader, target_model, attack_model, optimiser):
-#for data, targets in enumerate(tqdm(train_loader)):
     for batch, (data, targets) in enumerate(tqdm(test_loader)):
     # Reset gradients
         data, targets = data.to(device=device, dtype=torch.float16), targets.to(device)
         optimiser.zero_grad()
-        #index, data = data   
-        #print(data.shape)
-        #data=data.view(1000, 784)
-        #data=torch.transpose(data, 0, 1)
-        # First, get outputs from the target model
         target_outputs = target_model.first_part(data)
-        #target_outputs= target_outputs.view(-1,32*32*500)
         target_outputs = target_model.second_part(target_outputs)
         # Next, recreate the data with the attacker
         attack_outputs = attack_model(target_outputs)
@@ -202,11 +197,6 @@ def target_utility(test_loader, target_model, batch_size=64):
         X.requires_grad = True
         pred = target_model(X)
         counter_a=counter_a+1
-        #test_loss += cost(pred, Y).item()
-        #correct += (pred.argmax(1)==Y).type(torch.float).sum().item()
-
-
-        #data, target = data.to(device), target.to(device)
        
         # Set requires_grad attribute of tensor. Important for Attack
         total += Y.size(0)
@@ -225,6 +215,7 @@ def target_utility(test_loader, target_model, batch_size=64):
 
 
 def attack_test(train_loader, target_model, attack_model):
+    attack_model.eval()
     psnr_lst, ssim_lst, fid_lst=[], [], []
     attack_correct=0
     total=0
@@ -258,41 +249,26 @@ def attack_test(train_loader, target_model, attack_model):
         print('FID is: %.3f' % fid_val)
         
         test_output = target_model(recreated_data)
-        #attack_pred = test_output.max(1, keepdim=True)[1] # get the index of the max log-probability
-        #print(f"Done with sample: {counter_a}\ton epsilon={epsilon}")
 
-        #if attack_pred.item() == targets.item():
-        #    attack_correct += 1        
         _, pred = torch.max(test_output, -1)
         attack_correct += (pred == targets).sum().item()
         total += targets.size(0)
         ##Commented if not saving figures
+
         
-        #DataI = data[0] / 2 + 0.5
-        #print(DataI.shape)
-        #img= torch.permute(DataI, (1,2, 0))
-        #img=data
-        '''
         plt.imshow(data[0][0].cpu().detach().numpy(), cmap='gray')
         plt.xticks([])
         plt.yticks([])
         
-        #plt.imshow(mfcc_spectrogram[0][0,:,:].numpy(), cmap='viridis')
-        #DataR=recreated_data[0]/2 + 0.5
-        #recon_img=torch.permute(DataR, (1,2, 0))
-        #recon_img=recreated_data.to(torch.float32)
-        #print(recon_img.shape)
         
         plt.draw()
-        plt.savefig(f'.//plot/MNIST/cnn/org_img{batch}.jpg', dpi=100, bbox_inches='tight')
-        '''
-        # plt.imshow(recreated_data[0][0].cpu().detach().numpy(), cmap='gray')
+        plt.savefig(f'{save_dir_imgs}/org_img{batch}.jpg', dpi=100, bbox_inches='tight')
+        plt.imshow(recreated_data[0][0].cpu().detach().numpy(), cmap='gray')
         
-        # plt.xticks([])
-        # plt.yticks([])
-        # #plt.imshow(mfcc_spectrogram[0][0,:,:].numpy(), cmap='viridis')
-        # plt.draw()
-        # plt.savefig(f'./result/etn/plot/recon_lca2_again_img{batch}.jpg', dpi=100, bbox_inches='tight')
+        plt.xticks([])
+        plt.yticks([])
+        plt.draw()
+        plt.savefig(f'{save_dir_imgs}/recon_lca2_again_img{batch}.jpg', dpi=100, bbox_inches='tight')
         
         psnr_lst.append(psnr_val)
         ssim_lst.append(ssim_val)
@@ -303,29 +279,28 @@ def attack_test(train_loader, target_model, attack_model):
 
     return psnr_lst, ssim_lst, fid_lst
 
-target_epochs=25
 loss_train_tr, loss_test_tr=[],[]
+print("+++++++++Target Training Starting+++++++++")
 for t in tqdm(range(target_epochs)):
     # print(f'Epoch {t+1}\n-------------------------------')
-    # print("+++++++++Target Training Starting+++++++++")
-    tr_loss, result_train=target_train(train_loader, target_model, optimiser)
+    tr_loss, result_train=target_train(train_loader, target_model, optimiser_target)
     loss_train_tr.append(tr_loss)
 
 print("+++++++++Target Test+++++++++")
 
 final_acc=target_utility(test_loader, target_model, batch_size=64)
-attack_epochs=50
 
 loss_train, loss_test=[],[]
+print("+++++++++Training attack Starting+++++++++")
+target_model.eval()
 for t in tqdm(range(attack_epochs)):
     # print(f'Epoch {t+1}\n-------------------------------')
-    # print("+++++++++Training Starting+++++++++")
-    tr_loss=attack_train(test_loader, target_model, attack_model, optimiser)
+    tr_loss=attack_train(test_loader, target_model, attack_model, optimiser_attack)
     loss_train.append(tr_loss)
 
 print("**********Test Starting************")
-torch.save(attack_model, './result/etn/MNIST_50_epoch_CNN_lca2_attack.pt')
-torch.save(target_model, './result/etn/MNIST_25_epoch_CNN_lca2_target.pt')
+torch.save(attack_model, f'{save_dir}/attack/{exp_name}_attack.pt')
+torch.save(target_model, f'{save_dir}/target/{exp_name}_target.pt')
 psnr_lst, ssim_lst, fid_lst=attack_test(train_loader, target_model, attack_model)
 
 
@@ -339,4 +314,4 @@ print('Mean scoers are>> PSNR, SSIM, FID: ', average_psnr, average_ssim, average
 
 df = pd.DataFrame(list(zip(*[psnr_lst,  ssim_lst, fid_lst]))).add_prefix('Col')
 
-df.to_csv('./result/etn/MNIST_20_epoch_CNN_attack_lca2.csv', index=False)
+df.to_csv(f'{save_dir}/{exp_name}-result.csv', index=False)

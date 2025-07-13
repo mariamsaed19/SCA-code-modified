@@ -34,9 +34,9 @@ sys.path.append("/scratch/mt/new-structure/experiments/msaeed/masters/SCA")
 import resnet_models as resnet
 import os
 
-save_dir = "./result/celeba-vgg/nod/"
-save_dir_imgs = "./result/celeba-vgg/nod/images"
-exp_name = "celeba-vgg_nod"
+save_dir = "./result/celeba-resnet/nod/"
+save_dir_imgs = "./result/celeba-resnet/nod/images"
+exp_name = "celeba-resnet_nod"
 os.makedirs(save_dir,exist_ok=True)
 os.makedirs(save_dir+"/attack",exist_ok=True)
 os.makedirs(save_dir+"/target",exist_ok=True)
@@ -137,45 +137,61 @@ size2 = len(test_loader)
 print(size1, size2)
 
 
-class VGG16(nn.Module):
-    def __init__(self, pretrained=True, num_classes=10):
+class ResNet152(nn.Module):
+    def __init__(
+        self, pretrained=True, num_classes=10
+    ) -> None:
         super().__init__()
-        model = torchvision.models.vgg16_bn(pretrained=True)
-
-        # Use pretrained convolutional layers
-        self.features = model.features  # conv blocks
-        # self.avgpool = model.avgpool
-
-        # Insert SCL between features and classifier
-        # self.scl = SparseCodingLayer(in_channels=512, out_channels=512)
-
-        # Use the original classifier (or modify for custom num_classes)
+        model = resnet.customized_resnet152(pretrained=True,skip=[1, 1, 1, 1])
+        
+        self.conv1 = model.conv1
+        self.bn1 = model.bn1
+        self.relu = model.relu
+        self.maxpool = model.maxpool
+        self.layer1 = model.layer1
+        self.layer2 = model.layer2
+        self.layer3 = model.layer3
+        self.layer4 = model.layer4
+        self.avgpool = model.avgpool
         self.downsample = nn.Sequential(
             # model.avgpool,
             nn.AdaptiveAvgPool2d((2, 2)),     # [16, 512, 7, 7] -> [16, 512, 2, 2]
+            nn.Conv2d(2048, 1024, kernel_size=1),  # Reduce channels: 512 → 256
+            nn.Conv2d(1024, 512, kernel_size=1),  # Reduce channels: 512 → 256
             nn.Conv2d(512, 256, kernel_size=1)  # Reduce channels: 512 → 256
         )
-        self.classifier = nn.Sequential(
+        self.fc = nn.Sequential(
                             nn.Linear(256*2*2, 512),
                             nn.ReLU(),
                             nn.Linear(512, 5),
             )
 
-    def forward(self, x):
-        x = self.features(x)
-        # x = self.scl(x)  # sparse coding layer
-        # print("shape before downsample:",x.shape)
-        # print("shape of adaptive pooling 2",nn.AdaptiveAvgPool2d((2, 2))(x).shape)
-        x = self.downsample(x)
-        # print("After downsample",x.shape)
-        # print("*****")
-        x = torch.flatten(x, 1)
-        x = self.classifier(x)
-        return x
+    def first_part_forward(self,x):
+        x = self.conv1(x)
+        x = self.bn1(x)
+        x = self.relu(x)
+        x = self.maxpool(x)
 
+        x = self.layer1(x)
+        x = self.layer2(x)
+        x = self.layer3(x)
+        x = self.layer4(x)
+
+        x = self.avgpool(x)
+        x = self.downsample(x)
+        
+        return x
+    def forward(self, x):
+        # See note [TorchScript super()]
+        x = self.first_part_forward(x)
+        # print("before classifier",x.shape)
+        x = torch.flatten(x, 1)
+        x = self.fc(x)
+
+        return x
 # target_model = SplitNN().to(device=device)
-target_model = VGG16().to(device=device)
-# target_model = ResNet152().to(device=device)
+# target_model = VGG16().to(device=device)
+target_model = ResNet152().to(device=device)
 print(target_model)
 # raise ValueError("")
 
@@ -269,10 +285,10 @@ def attack_train(test_loader, target_model, attack_model, optimiser,epoch):
         #data=data.view(1000, 784)
         #data=torch.transpose(data, 0, 1)
         # First, get outputs from the target model
-        target_outputs = target_model.features(data)
-        # target_outputs = target_model.first_part_forward(data)
+        # target_outputs = target_model.first_part(data)
+        target_outputs = target_model.first_part_forward(data)
         # target_outputs = target_model.second_part(target_outputs)
-        target_outputs = target_model.downsample(target_outputs)
+        # target_outputs = target_model.downsample(target_outputs)
         #print(data.shape)
         # print("Before:",target_outputs.shape)
         target_outputs = target_outputs.view(1, 2*data.shape[0], 2, 16*16)
@@ -355,8 +371,8 @@ def attack_test(train_loader, target_model, attack_model):
     for batch, (data, targets) in enumerate(tqdm(train_loader)):
         #data = data.view(data.size(0), -1)
         data, targets = data.to(device=device), targets.to(device=device)
-        target_outputs = target_model.features(data)
-        target_outputs = target_model.downsample(target_outputs)
+        target_outputs = target_model.first_part_forward(data)
+        # target_outputs = target_model.downsample(target_outputs)
         if (data.shape[0]!=32):
            #data=data.repeat(2, 1, 1, 1)
            target_outputs = target_outputs.view(1,data.shape[0], 4, 16*16)

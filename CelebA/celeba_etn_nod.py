@@ -29,11 +29,22 @@ from torch.utils.data import Dataset, DataLoader
 import torchvision.transforms as transforms
 from skimage import io
 import heapq
+import sys 
+sys.path.append("/scratch/mt/new-structure/experiments/msaeed/masters/SCA")
+import resnet_models as resnet
+import os
 
+save_dir = "./result/celeba-cnn/nod/"
+save_dir_imgs = "./result/celeba-cnn/nod/images"
+exp_name = "celeba-cnn_nod"
+os.makedirs(save_dir,exist_ok=True)
+os.makedirs(save_dir+"/attack",exist_ok=True)
+os.makedirs(save_dir+"/target",exist_ok=True)
+os.makedirs(save_dir_imgs,exist_ok=True)
 ## Setup
 # Number of gpus available
 ngpu = 1
-device = torch.device('cuda:0' if (
+device = torch.device('cuda' if (
     torch.cuda.is_available() and ngpu > 0) else 'cpu')
 batch_size = 32
 batch_size_train = 32
@@ -183,8 +194,100 @@ class SplitNN(nn.Module):
     return x
 
 
+class VGG16(nn.Module):
+    def __init__(self, pretrained=True, num_classes=10):
+        super().__init__()
+        model = torchvision.models.vgg16_bn(pretrained=True)
 
+        # Use pretrained convolutional layers
+        self.features = model.features  # conv blocks
+        # self.avgpool = model.avgpool
+
+        # Insert SCL between features and classifier
+        # self.scl = SparseCodingLayer(in_channels=512, out_channels=512)
+
+        # Use the original classifier (or modify for custom num_classes)
+        self.downsample = nn.Sequential(
+            # model.avgpool,
+            nn.AdaptiveAvgPool2d((2, 2)),     # [16, 512, 7, 7] -> [16, 512, 2, 2]
+            nn.Conv2d(512, 256, kernel_size=1)  # Reduce channels: 512 → 256
+        )
+        self.classifier = nn.Sequential(
+                            nn.Linear(256*2*2, 512),
+                            nn.ReLU(),
+                            nn.Linear(512, 10),
+            )
+
+    def forward(self, x):
+        x = self.features(x)
+        # x = self.scl(x)  # sparse coding layer
+        # print("shape before downsample:",x.shape)
+        # print("shape of adaptive pooling 2",nn.AdaptiveAvgPool2d((2, 2))(x).shape)
+        x = self.downsample(x)
+        # print("After downsample",x.shape)
+        # print("*****")
+        x = torch.flatten(x, 1)
+        x = self.classifier(x)
+        return x
+
+class ResNet152(nn.Module):
+    def __init__(
+        self, pretrained=True, num_classes=10
+    ) -> None:
+        super().__init__()
+        model = resnet.customized_resnet152(pretrained=True,skip=[1, 1, 1, 1])
+        
+        self.conv1 = model.conv1
+        self.bn1 = model.bn1
+        self.relu = model.relu
+        self.maxpool = model.maxpool
+        self.layer1 = model.layer1
+        self.layer2 = model.layer2
+        self.layer3 = model.layer3
+        self.layer4 = model.layer4
+        self.avgpool = model.avgpool
+        self.downsample = nn.Sequential(
+            # model.avgpool,
+            nn.AdaptiveAvgPool2d((2, 2)),     # [16, 512, 7, 7] -> [16, 512, 2, 2]
+            nn.Conv2d(2048, 1024, kernel_size=1),  # Reduce channels: 512 → 256
+            nn.Conv2d(1024, 512, kernel_size=1),  # Reduce channels: 512 → 256
+            nn.Conv2d(512, 256, kernel_size=1)  # Reduce channels: 512 → 256
+        )
+        self.fc = nn.Sequential(
+                            nn.Linear(256*2*2, 512),
+                            nn.ReLU(),
+                            nn.Linear(512, 10),
+            )
+
+    def first_part_forward(self,x):
+        x = self.conv1(x)
+        x = self.bn1(x)
+        x = self.relu(x)
+        x = self.maxpool(x)
+
+        x = self.layer1(x)
+        x = self.layer2(x)
+        x = self.layer3(x)
+        x = self.layer4(x)
+
+        x = self.avgpool(x)
+        x = self.downsample(x)
+        
+        return x
+    def forward(self, x):
+        # See note [TorchScript super()]
+        x = self.first_part_forward(x)
+        # print("before classifier",x.shape)
+        x = torch.flatten(x, 1)
+        x = self.fc(x)
+
+        return x
 target_model = SplitNN().to(device=device)
+# target_model = VGG16().to(device=device)
+# target_model = ResNet152().to(device=device)
+print(target_model)
+# raise ValueError("")
+
 class Attacker(nn.Module):
   def __init__(self):
     super(Attacker, self).__init__()
@@ -207,7 +310,8 @@ class Attacker(nn.Module):
     return self.layers(x)
   
 attack_model = Attacker().to(device=device)
-optimiser=torch.optim.SGD(target_model.parameters(),lr=0.001,momentum=0.9)
+optimiser_target=torch.optim.SGD(target_model.parameters(),lr=0.001,momentum=0.9)
+optimiser_attack=torch.optim.SGD(attack_model.parameters(),lr=0.001,momentum=0.9)
 cost = torch.nn.CrossEntropyLoss()
 
 # calculate frechet inception distance
@@ -228,7 +332,7 @@ def calculate_fid(act1, act2):
  return fid
 
 
-def target_train(train_loader, target_model, optimiser):
+def target_train(train_loader, target_model, optimiser,epoch):
     target_model.train()
     size = len(train_loader.dataset)
     correct = 0
@@ -248,7 +352,13 @@ def target_train(train_loader, target_model, optimiser):
         total_loss.append(loss.item())
         #batch_count+=batch
         #correct += (pred.argmax(1)==Y).type(torch.float).sum().item()
-
+    checkpoint = {
+        'epoch': epoch,
+        'model_state_dict': target_model.state_dict(),
+        'optimizer_state_dict': optimiser.state_dict(),
+        'loss': loss
+    }
+    torch.save(checkpoint, f'{save_dir}/target/{exp_name}_target_{epoch}.pt')
     correct /= size
     loss= sum(total_loss)/batch
     result_train=100*correct
@@ -257,7 +367,7 @@ def target_train(train_loader, target_model, optimiser):
     return loss, result_train
 
 #test_loader, target_model, attack_model, optimiser
-def attack_train(test_loader, target_model, attack_model, optimiser):
+def attack_train(test_loader, target_model, attack_model, optimiser,epoch):
 #for data, targets in enumerate(tqdm(train_loader)):
     for batch, (data, targets) in enumerate(tqdm(test_loader)):
     # Reset gradients
@@ -269,11 +379,14 @@ def attack_train(test_loader, target_model, attack_model, optimiser):
         #data=torch.transpose(data, 0, 1)
         # First, get outputs from the target model
         target_outputs = target_model.first_part(data)
+        # target_outputs = target_model.first_part_forward(data)
         target_outputs = target_model.second_part(target_outputs)
+        # target_outputs = target_model.downsample(target_outputs)
         #print(data.shape)
-        #print(target_outputs.shape)
+        # print("Before:",target_outputs.shape)
         target_outputs = target_outputs.view(1, 2*data.shape[0], 2, 16*16)
-        #print(target_outputs.shape)
+        # print("After:",target_outputs.shape)
+        # raise ValueError("")
         # Next, recreate the data with the attacker
         #target_outputs=target_outputs[None, None, :]
         attack_outputs = attack_model(target_outputs)
@@ -298,12 +411,18 @@ def attack_train(test_loader, target_model, attack_model, optimiser):
         # Update the attack model
         loss.backward()
         optimiser.step()
-
+    checkpoint = {
+        'epoch': epoch,
+        'model_state_dict': attack_model.state_dict(),
+        'optimizer_state_dict': optimiser.state_dict(),
+        'loss': loss
+    }
+    torch.save(checkpoint, f'{save_dir}/attack/{exp_name}_attack_{epoch}.pt')
     return loss
 
 def target_utility(test_loader, target_model, batch_size=1):
     size = len(test_loader.dataset)
-    #target_model.eval()
+    target_model.eval()
     test_loss, correct = 0, 0
     correct = 0
     total=0
@@ -338,12 +457,14 @@ def target_utility(test_loader, target_model, batch_size=1):
 
 
 def attack_test(train_loader, target_model, attack_model):
+    attack_model.eval()
     psnr_lst, ssim_lst, fid_lst=[], [], []
     attack_correct=0
     total=0
     for batch, (data, targets) in enumerate(tqdm(train_loader)):
         #data = data.view(data.size(0), -1)
         data, targets = data.to(device=device), targets.to(device=device)
+
         target_outputs = target_model.first_part(data)
         target_outputs = target_model.second_part(target_outputs)
         if (data.shape[0]!=32):
@@ -356,6 +477,7 @@ def attack_test(train_loader, target_model, attack_model):
         #print(target_outputs.shape)
         if(target_outputs.shape[1]!=32):
             target_outputs = target_outputs.repeat(1,16, 1, 1)
+        # print(target_outputs.shape)
         recreated_data = attack_model(target_outputs)
         #target_outputs = target_outputs.view(1, 32, target_outputs.shape[0], 16*16)
         #target_outputs=target_outputs[None, None, :]
@@ -381,20 +503,7 @@ def attack_test(train_loader, target_model, attack_model):
         print("SSIM is:", ssim_val)
         if(ssim_val>.12 and ssim_val<.25):
            ssim_val=ssim_val*4.00   
-        #LEARNED PERCEPTUAL IMAGE PATCH SIMILARITY (LPIPS)
-        #lpips = LearnedPerceptualImagePatchSimilarity(net_type='squeeze')
-        #lpips_val=lpips(data, recreated_data).item()
-        #print("LPIPS is:", lpips_val)
 
-        '''
-        fid = FrechetInceptionDistance(feature=768)
-        int_data=data.to(torch.uint8)
-        int_recon=recreated_data.to(torch.uint8)
-        fid.update(int_data, real=True)
-        fid.update(int_recon, real=False)
-        fid_val=fid.compute()
-        print("FID is:", fid_val)
-        '''
         ## Inception Score
         data_scaled=torch.mul(torch.div(torch.sub(data, torch.min(data)),torch.sub(torch.max(data),torch.min(data))), 255)
         int_data=data_scaled.to(torch.uint8)
@@ -406,38 +515,11 @@ def attack_test(train_loader, target_model, attack_model):
         print('FID is: %.3f' % fid_val)
         if (recreated_data.shape[2]==16):
            recreated_data=recreated_data.repeat(1, 1, 2, 1)
-        test_output = target_model(recreated_data)
-        #attack_pred = test_output.max(1, keepdim=True)[1] # get the index of the max log-probability
-        #print(f"Done with sample: {counter_a}\ton epsilon={epsilon}")
-
-        #if attack_pred.item() == targets.item():
-        #    attack_correct += 1        
+        test_output = target_model(recreated_data)    
         _, pred = torch.max(test_output, -1)
         attack_correct += (pred == targets).sum().item()
         total += targets.size(0)
-        ### For Saving recon images, uncomment below code blocks
-        '''
-        DataI = data[0] / 2 + 0.5
-        img= torch.permute(DataI, (1,2, 0))
-        print(img.shape)
-        plt.imshow((img.cpu().detach().numpy()))
-        plt.xticks([])
-        plt.yticks([])
-        
-        #plt.imshow(mfcc_spectrogram[0][0,:,:].numpy(), cmap='viridis')
-        DataR=recreated_data[0]/2 + 0.5
-        recon_img=torch.permute(DataR, (1,2, 0))
-        print(recon_img.shape)
-        
-        plt.draw()
-        plt.savefig(f'/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/celeba/plot/nod/org_img{batch}.jpg', dpi=100, bbox_inches='tight')
-        plt.imshow((recon_img.cpu().detach().numpy()))
-        plt.xticks([])
-        plt.yticks([])
-        #plt.imshow(mfcc_spectrogram[0][0,:,:].numpy(), cmap='viridis')
-        #plt.draw()
-        #plt.savefig(f'/dartfs-hpc/rc/home/h/f0048vh/Sparse_guard/celeba/plot/nod/recon_img{batch}.jpg', dpi=100, bbox_inches='tight')
-        '''
+
         psnr_lst.append(psnr_val)
         ssim_lst.append(ssim_val)
         fid_lst.append(fid_val)
@@ -452,7 +534,7 @@ loss_train_tr, loss_test_tr=[],[]
 print("+++++++++Target Training Starting+++++++++")
 for t in tqdm(range(target_epochs)):
     # print(f'Epoch {t+1}\n-------------------------------')
-    tr_loss, result_train=target_train(train_loader, target_model, optimiser)
+    tr_loss, result_train=target_train(train_loader, target_model, optimiser_target,t)
     loss_train_tr.append(tr_loss)
 
 print("+++++++++Target Test+++++++++")
@@ -462,12 +544,15 @@ attack_epochs=50
 
 loss_train, loss_test=[],[]
 print("+++++++++Training Starting+++++++++")
+target_model.eval()
 for t in tqdm(range(attack_epochs)):
     # print(f'Epoch {t+1}\n-------------------------------')
-    tr_loss=attack_train(test_loader, target_model, attack_model, optimiser)
+    tr_loss=attack_train(test_loader, target_model, attack_model, optimiser_attack,t)
     loss_train.append(tr_loss)
 
 print("**********Test Starting************")
+torch.save(attack_model, f'{save_dir}/attack/{exp_name}_attack.pt')
+torch.save(target_model, f'{save_dir}/target/{exp_name}_target.pt')
 psnr_lst, ssim_lst, fid_lst=attack_test(attack_test_loader, target_model, attack_model)
 def Average(lst):
     return sum(lst) / len(lst)
@@ -484,11 +569,9 @@ average_ssim = Average(ssim_lst)
 average_incep = Average(fid_lst)
 print('Mean scoers are>> PSNR, SSIM, FID: ', average_psnr, average_ssim, average_incep)
 
-torch.save(attack_model, './result-celeba/nod_CIFAR10_20_epoch_CNN_linear_attack.pt')
-torch.save(target_model, './result-celeba/nod_CIFAR10_20_epoch_CNN_linear_target.pt')
 
 df = pd.DataFrame(list(zip(*[psnr_lst,  ssim_lst, fid_lst]))).add_prefix('Col')
 
-df.to_csv('./result-celeba/nod_CIFAR10_20_epoch_CNN_attack_linear.csv', index=False)
+df.to_csv(f'{save_dir}/{exp_name}-result.csv', index=False)
 #print("--- %s seconds ---" % (time.time() - start_time))
 

@@ -9,7 +9,7 @@ lca_iters: 500
 metric_fpath: /scratch/mt/new-structure/experiments/msaeed/masters/SCA/lca_results/metrics.xz
 no_time_pad: true
 nonneg: true
-out_neurons: 28
+out_neurons: 32
 pad: same
 req_grad: false
 result_dir: /scratch/mt/new-structure/experiments/msaeed/masters/SCA/lca_results

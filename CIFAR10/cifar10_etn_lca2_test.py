@@ -19,7 +19,7 @@ from lcapt.lca import LCAConv2D
 import os 
 
 n_epochs = 3
-batch_size_train = 32
+batch_size_train = 16
 batch_size_test = 16
 
 save_dir = "./result/cifar-cnn/lca2/"
@@ -231,7 +231,7 @@ def attack_train(test_loader, target_model, attack_model, optimiser,epoch):
         # target_outputs = target_model.features(target_outputs)
         # target_outputs = target_model.downsample(target_outputs)
         #print(data.shape)
-        #print(target_outputs.shape)
+        print(target_outputs.shape)
         target_outputs = target_outputs.view(1, 2*data.shape[0], 2, 16*16)
         #print(target_outputs.shape)
         # Next, recreate the data with the attacker
@@ -309,18 +309,20 @@ def attack_test(train_loader, target_model, attack_model):
     for batch, (data, targets) in enumerate(tqdm(train_loader)):
         #data = data.view(data.size(0), -1)
         data, targets = data.to(device=device ,  dtype=torch.float16), targets.to(device=device)
+        # print("targets:",targets,targets.shape,targets.dtype)
         target_outputs = target_model.first_part(data)
         target_outputs = target_model.second_part(target_outputs)
         # target_outputs = target_model.features(target_outputs)
         # target_outputs = target_model.downsample(target_outputs)
+        # print("after target",target_outputs.shape)
         if (data.shape[0]!=32):
            #data=data.repeat(2, 1, 1, 1)
            target_outputs = target_outputs.view(1,data.shape[0], 4, 16*16)
            target_outputs = target_outputs.repeat(1,2, 1, 1)
         else:
             target_outputs = target_outputs.view(1,data.shape[0], 4, 16*16)
-        #print(data.shape)
-        #print(target_outputs.shape)
+        # print("data:",data.shape)
+        # print("before attack",target_outputs.shape)
 
         #target_outputs = target_outputs.view(1, 32, target_outputs.shape[0], 16*16)
         #target_outputs=target_outputs[None, None, :]
@@ -405,30 +407,23 @@ def attack_test(train_loader, target_model, attack_model):
 
     return psnr_lst, ssim_lst, fid_lst
 
-target_epochs=25
-loss_train_tr, loss_test_tr=[],[]
-print("+++++++++Target Training Starting+++++++++")
-for t in tqdm(range(target_epochs)):
-    # print(f'Epoch {t+1}\n-------------------------------')
-    tr_loss, result_train=target_train(train_loader_aug, target_model, optimiser_target,t)
-    loss_train_tr.append(tr_loss)
+
 
 print("+++++++++Target Test+++++++++")
+target_model = torch.load(f'{save_dir}/target/{exp_name}_target.pt', map_location='cpu',weights_only=False)
+attack_model = torch.load(f'{save_dir}/attack/{exp_name}_attack.pt', map_location='cpu',weights_only=False)
+# Wrap the models
 
-final_acc=target_utility(test_loader, target_model, batch_size=1)
-attack_epochs=50
-
-loss_train, loss_test=[],[]
-print("+++++++++Training Starting+++++++++")
+target_model.to(device)
 target_model.eval()
-for t in tqdm(range(attack_epochs)):
-    # print(f'Epoch {t+1}\n-------------------------------')
-    tr_loss=attack_train(test_loader, target_model, attack_model, optimiser_attack,t)
-    loss_train.append(tr_loss)
+attack_model.to(device)
+attack_model.eval()
+# final_acc=target_utility(test_loader, target_model, batch_size=1)
+
+
 
 print("**********Test Starting************")
-torch.save(attack_model, f'{save_dir}/attack/{exp_name}_attack.pt')
-torch.save(target_model, f'{save_dir}/target/{exp_name}_target.pt')
+
 psnr_lst, ssim_lst, fid_lst=attack_test(train_loader, target_model, attack_model)
 def Average(lst):
     return sum(lst) / len(lst)
